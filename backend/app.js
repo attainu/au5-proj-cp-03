@@ -5,9 +5,14 @@ const app = express();
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
+const userRouter = require('./routes/userRoutes');
+
+app.use('/api/users', userRouter);
+
 app.all('*', (req, res, next) => {
   res.json({
-    message: "Sucessfully connected"
+    status: false,
+    message: `Can't find ${req.originalUrl} on this server!`
   })
 });
 
