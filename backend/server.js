@@ -34,6 +34,8 @@ app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
+// unhandledRejection - Occurs when someone tries to access
+// the database with invalid password
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION! Shutting down...');
   console.log(err.name, err.message);
