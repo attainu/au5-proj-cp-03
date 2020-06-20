@@ -23,4 +23,4 @@ var assignmentSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model('Assignmnet', assignmentSchema);
+module.exports = mongoose.model('Assignment', assignmentSchema);
