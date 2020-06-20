@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
   courses: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     default: []
+  },
+  location: {
+    type: String,
+    default: ""
   }
 });
 

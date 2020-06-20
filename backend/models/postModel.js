@@ -2,21 +2,20 @@ const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
 var postSchema = new mongoose.Schema({
-    instructorname:{
-        type:String,
-        required:true
-       
+    instructorname: {
+        type: String,
+        required: true
     },
-    time:{
-        type:Number,
-        required:true
+    time: {
+        type: Number,
+        required: true
     },
-    message:{
-        type:String,
-        required:true        
+    message: {
+        type: String,
+        required: true
     },
-    file:{
-        type:String
+    file: {
+        type: String
     },
 });
 
