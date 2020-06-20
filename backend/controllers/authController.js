@@ -1,54 +1,61 @@
 const jwt = require('jsonwebtoken');
+const bcryptjs = require('bcrypt');
 
-exports.signup = async (req, res, next) => {
-  try {
-    let { name, email, role, password, gender, location } = req.body;
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
+const User = require('./../models/userModel');
 
-    let salt = await bcryptjs.genSalt(10);
-    let hashPassword = await bcryptjs.hash(password, salt);
+exports.signup = catchAsync(async (req, res, next) => {
+  const { name, email, role, password, passwordConfirm, gender, location } = req.body;
 
-    let user = await user.create({
-      name,
-      email,
-      role,
-      password: hashPassword,
-      gender,
-      location
-    });
+  if (!name || !email || !password || !gender || !role) {
+    return next(new AppError('Please provide Valid details for signup', 400));
+  }
+  console.log("Before user created");
+  let user = await User.create({
+    name,
+    email,
+    role,
+    password,
+    passwordConfirm,
+    gender,
+    location
+  });
+  console.log("After user created!");
+  res.json({
+    status: true,
+    data: user
+  })
+});
 
-    res.json({
-      status: true,
-      data: user
+exports.login = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if email and password exist
+  if (!email || !password) {
+    return next(new AppError('Please provide email and password!', 400));
+  }
+  // Check if user exists && password is correct
+  const user = await User.findOne({ email }).select('+password');
+
+  // fat models, thin controller
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
+
+  // Dont want to expose the password
+  user.password = undefined;
+
+  if (user) {
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES
     })
-  } catch (error) {
-
+    res.header('auth-token', token).json({
+      status: true,
+      data: user,
+      token
+    });
+  } else {
+    return res.json({ status: false })
   }
-};
-
-exports.login = async (req, res, next) => {
-  try {
-    let { email, password } = req.body;
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      return res.json({ status: false })
-    }
-
-    //Decrypt password
-    let validPassword = await bcryptjs.compare(password, user.password);
-    // validPassword = true;
-    if (validPassword) {
-      const token = jwt.sign({ _id: user._id }, 'secretkey',
-      )
-      res.header('auth-token', token).json({
-        status: true,
-        data: user,
-        token
-      });
-    } else {
-      return res.json({ status: false })
-    }
-  } catch (error) {
-
-  }
-}
+});
