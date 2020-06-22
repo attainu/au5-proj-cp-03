@@ -1,10 +1,14 @@
 const course = require('../models/courseModel')
-
+const validateCourse = require('../validators/courseValidator')
 exports.getcourses =async(req,res)=>{
     res.json({'msg':'here you go'})
 }
 exports.createcourse =async(req,res)=>{
     const {courseID,name,description,instructor,startDate,endDate,lectureVideos,posts,assignments} =req.body
+    const {errors,isValid} = validateCourse(req.body)
+    if(!isValid){
+        return res.status(400).json(errors)
+    }
     const courseObj = new course({
         courseID,
         name,

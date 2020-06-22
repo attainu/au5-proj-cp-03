@@ -3,9 +3,9 @@ const user = require('../models/userModel')
 const {getcourseid} = require('../controllers/courseController')
 
 module.exports = registercontroller =async (req,res)=>{
-    const {name,email,image,role,password,active,contactnumber,dob,gender,courses} = req.body
+    const {name,email,image,role,password,confirmpassword,active,contactnumber,dob,gender,courses} = req.body
     console.log(name,email);
-    
+    const errors = {}    
     //todo validation on server side
     
     console.log("Courseid is :",await getcourseid(courses));
@@ -15,22 +15,22 @@ module.exports = registercontroller =async (req,res)=>{
         image:image,
         role:role,
         password:password,
+        passwordConfirm:confirmpassword,
         active:active,
         contactNumber:contactnumber,
         dob:dob,
         gender:gender,
         courses:await getcourseid(courses)
     })
-
-     userObj.save((err,result)=>{
-        if(err){
-            res.json({'Error':"User email already registered"})
-            console.log(err)
-        }
-        else{
-            res.json({'msg':'User registered succesfully'})
+    user.findOne({email:email}).then(emailData=>{
+        if(emailData){
+            errors.email = "Email already exists"
+            res.status(400).json(errors)
         }
     })
+     userObj.save().then(result=>res.json({
+        'user':result.name, 
+        'msg':'User registered successfully'}))
 
     
 }

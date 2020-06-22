@@ -11,9 +11,9 @@ app.use(express.static(`${__dirname}/public`));
 app.use('/api',user)
 app.use('/api',video)
 app.use('/api',course)
-const userRouter = require('./routes/userRoutes');
+
 const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
+const globalErrorHandler = require('./controllers/errorController');  
 
 app.use('/api/users', userRouter);
 app.all('*', (req, res, next) => {
