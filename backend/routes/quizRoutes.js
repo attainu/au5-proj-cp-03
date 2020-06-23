@@ -1,12 +1,40 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
 
-const quizController = require('../controllers/quizController');
+const router = express.Router();
 
+const quizController = require("../controllers/quizController");
+const authController = require("../controllers/authController");
 
-router.post('/quiz', quizController.createQuiz);
-router.delete('/quiz', quizController.deleteQuiz);
-router.post('/question', quizController.addQuestion);
-router.delete('/question', quizController.deleteQuestion);
+router
+  .route("/")
+  .get(quizController.getQuiz)
+  .post(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.createQuiz
+  )
+  .delete(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.deleteQuiz
+  )
+  .put(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.updateQuiz
+  );
 
-module.exports = router
+router
+  .route("/question")
+  .post(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.addQuestion
+  )
+  .delete(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.deleteQuestion
+  );
+
+module.exports = router;
