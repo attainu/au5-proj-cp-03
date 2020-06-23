@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcryptjs = require('bcrypt');
 
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -11,7 +10,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (!name || !email || !password || !gender || !role) {
     return next(new AppError('Please provide Valid details for signup', 400));
   }
-  console.log("Before user created");
+
   let user = await User.create({
     name,
     email,
@@ -21,7 +20,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     gender,
     location
   });
-  console.log("After user created!");
+
   res.json({
     status: true,
     data: user
