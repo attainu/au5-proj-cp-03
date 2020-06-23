@@ -1,9 +1,19 @@
 const video = require('../models/videoModel')
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+//Get videos on the basis of name of the video 
+//Get All the videos
 
 exports.getvideos = async (req, res) => {
-    res.json({ "msg": "I will send the videos" })
+    const { name } = req.body
+    video.findOne({ name: name }).then(video => {
+        res.json(video)
+    })
+}
+exports.getallvideos = async (req, res) => {
+    video.find({}).then(videos => {
+        res.json(videos)
+    })
 }
 exports.createvideo = catchAsync(async (req, res, next) => {
     const { name, subject, chapter } = req.body
@@ -31,13 +41,13 @@ exports.createvideo = catchAsync(async (req, res, next) => {
         file: file
     })
 
-    video.findOne({ name: name }).then(nameData => {
-        if (nameData) {
-            errors.name = "Video of this name is already present"
-            res.status(400).json(errors)
-            res.end()
-        }
-    })
+    // video.findOne({ name: name }).then(nameData => {
+    //     if (nameData) {
+    //         errors.name = "Video of this name is already present"
+    //         res.status(400).json(errors)
+    //         res.end()
+    //     }
+    // })
     videoObj.save().then(result => res.json(result))
 
 
