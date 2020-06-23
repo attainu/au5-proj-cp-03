@@ -6,7 +6,7 @@ var reportSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    class: {
+    classandsection: {
         type: String,
         required: true
 
@@ -18,4 +18,4 @@ var reportSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Report', reportSchema);

@@ -4,7 +4,7 @@ const bcryptjs = require('bcrypt');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
-
+require('dotenv').config({ path: './config.env' })
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, role, password, passwordConfirm, gender, location } = req.body;
 

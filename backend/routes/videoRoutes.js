@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {getvideos,createvideo} = require('../controllers/videoController')
+const upload = require('../utils/uploadfile')
+const { getvideos, createvideo } = require('../controllers/videoController')
 //getlistofvideos
-router.get('/getvideos',getvideos)
+router.get('/getvideos', getvideos)
 //insert video in the database
-router.post('/createvideo',createvideo)
+router.post('/createvideo', upload.single('file'), createvideo)
 module.exports = router

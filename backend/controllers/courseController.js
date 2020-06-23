@@ -1,12 +1,14 @@
 const course = require('../models/courseModel')
 const validateCourse = require('../validators/courseValidator')
-exports.getcourses =async(req,res)=>{
-    res.json({'msg':'here you go'})
+const catchAsync = require('../utils/catchAsync')
+exports.getcourses = async (req, res) => {
+    res.json({ 'msg': 'here you go' })
 }
-exports.createcourse =async(req,res)=>{
-    const {courseID,name,description,instructor,startDate,endDate,lectureVideos,posts,assignments} =req.body
-    const {errors,isValid} = validateCourse(req.body)
-    if(!isValid){
+exports.createcourse = catchAsync(async (req, res, next) => {
+    const { courseID, name, description, instructor, startDate, endDate, lectureVideos, posts, assignments } = req.body
+    const { errors, isValid } = validateCourse(req.body)
+    console.log("hye", errors, isValid)
+    if (!isValid) {
         return res.status(400).json(errors)
     }
     const courseObj = new course({
@@ -23,18 +25,16 @@ exports.createcourse =async(req,res)=>{
 
     //todo validation
 
-    courseObj.save((err,result)=>{
-        if(err)
-        {
-            res.json({"Error":"Course Creation Error"})
+    courseObj.save((err, result) => {
+        if (err) {
+            res.json({ "Error": "Course Creation Error" })
         }
-        else
-        {
-            res.json({"Status":"Course Created Successfully"})
+        else {
+            res.json({ "Status": "Course Created Successfully" })
         }
     })
-}
-exports.getcourseid  = async(coursename)=>{   
-    let courseid = await course.findOne({courseID:coursename})
+})
+exports.getcourseid = async (coursename) => {
+    let courseid = await course.findOne({ courseID: coursename })
     return courseid._id
 }
