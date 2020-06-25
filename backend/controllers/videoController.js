@@ -1,6 +1,7 @@
 const Video = require("../models/videoModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+
 //Get videos on the basis of name of the video
 //Get All the videos
 
@@ -18,7 +19,8 @@ exports.getallvideos = async (req, res) => {
 exports.createvideo = catchAsync(async (req, res, next) => {
   const { name, subject, chapter } = req.body;
 
-  const file = req.file.path;
+  console.log(req.file)
+  let file = req.file.path
 
   if (!name) {
     return next(new AppError("Please provide name", 400));
@@ -39,13 +41,14 @@ exports.createvideo = catchAsync(async (req, res, next) => {
     chapter: chapter,
     file: file,
   });
+  await Video.findOne({ name: name }).then(result => {
+    if (!result) {
 
-  // video.findOne({ name: name }).then(nameData => {
-  //     if (nameData) {
-  //         errors.name = "Video of this name is already present"
-  //         res.status(400).json(errors)
-  //         res.end()
-  //     }
-  // })
-  videoObj.save().then((result) => res.json(result));
+      videoObj.save().then((result) => res.json(result));
+    }
+    else {
+      res.json('Video of this name is already present')
+    }
+  })
+
 });
