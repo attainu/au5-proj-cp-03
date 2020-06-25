@@ -14,7 +14,9 @@ const courseSchema = new mongoose.Schema({
     type: String,
   },
   instructor: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   startDate: Date,
   endDate: Date,
@@ -22,13 +24,26 @@ const courseSchema = new mongoose.Schema({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
     default: [],
   },
-  Posts: {
+  posts: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     default: [],
   },
   assignments: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Assignment" }],
     default: [],
+  },
+  quizzes: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Assignment" }],
+    default: [],
+  },
+  studentsEnrolled: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    default: [],
+  },
+  enrollString: {
+    type: String,
+    required: true,
+    unique: true,
   },
 });
 

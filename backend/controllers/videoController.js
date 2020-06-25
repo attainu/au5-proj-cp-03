@@ -19,8 +19,7 @@ exports.getallvideos = async (req, res) => {
 exports.createvideo = catchAsync(async (req, res, next) => {
   const { name, subject, chapter } = req.body;
 
-  console.log(req.file)
-  let file = req.file.path
+  const file = req.file.path;
 
   if (!name) {
     return next(new AppError("Please provide name", 400));
@@ -41,14 +40,12 @@ exports.createvideo = catchAsync(async (req, res, next) => {
     chapter: chapter,
     file: file,
   });
-  await Video.findOne({ name: name }).then(result => {
+  await Video.findOne({ name: name }).then((result) => {
     if (!result) {
-
+      // eslint-disable-next-line no-shadow
       videoObj.save().then((result) => res.json(result));
+    } else {
+      res.json("Video of this name is already present");
     }
-    else {
-      res.json('Video of this name is already present')
-    }
-  })
-
+  });
 });
