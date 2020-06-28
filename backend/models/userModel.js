@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
     type: [
       {
         courseID: {
-          type: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+          type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
         },
         assignSubn: {
           type: [{ type: mongoose.Schema.Types.ObjectId, ref: "AssignSubn" }],
@@ -73,6 +73,7 @@ const userSchema = new mongoose.Schema({
         },
       },
     ],
+    default: [],
   },
   location: {
     type: String,
