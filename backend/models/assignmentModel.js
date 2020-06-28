@@ -1,26 +1,31 @@
 const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
-const assignmentSchema = new mongoose.Schema({
-  chapter: {
-    type: String,
-    required: true,
+const assignmentSchema = new mongoose.Schema(
+  {
+    courseID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    file: {
+      type: String,
+    },
+    submissions: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "submissions" }],
+      default: [],
+    },
   },
-  date: {
-    type: Date, //check this value
-    required: true,
-    unique: true,
-  },
-  submissiondate: {
-    type: Date,
-    required: true,
-    unique: true,
-  },
-  file: {
-    type: String, //path to file
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }
+);
 
 //Export the model
 module.exports = mongoose.model("Assignment", assignmentSchema);

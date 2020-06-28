@@ -15,10 +15,12 @@
 		"cloudinary": "^1.22.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
+		"express-fileupload": "^1.1.7-alpha.3",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.9.19",
 		"multer": "^1.4.2",
 		"multer-storage-cloudinary": "^4.0.0",
+		"randexp": "^0.5.3",
 		"validator": "^13.1.1"
 	},
 	"devDependencies": {

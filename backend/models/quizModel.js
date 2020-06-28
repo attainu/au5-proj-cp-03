@@ -7,7 +7,13 @@ const quizSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
+    },
+    publish: {
+      type: Boolean,
+      default: false,
+    },
+    endDate: {
+      type: Date,
     },
     question: [
       {

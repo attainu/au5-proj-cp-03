@@ -57,9 +57,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["male", "female"],
   },
-  courses: {
+  instructorCourses: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
     default: [],
+  },
+  studentCourses: {
+    type: [
+      {
+        courseID: {
+          type: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+        },
+        assignSubn: {
+          type: [{ type: mongoose.Schema.Types.ObjectId, ref: "AssignSubn" }],
+          default: [],
+        },
+      },
+    ],
   },
   location: {
     type: String,

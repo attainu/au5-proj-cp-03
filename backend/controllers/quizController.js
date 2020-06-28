@@ -1,6 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Quiz = require("../models/quizModel");
+const Course = require("../models/courseModel");
 
 exports.getQuiz = catchAsync(async (req, res, next) => {
   const { title } = req.body;
@@ -14,6 +15,7 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
   if (!quiz) {
     return next(new AppError(`No quiz with title: ${title}`, 400));
   }
+
   res.json({
     status: true,
     data: quiz,
@@ -21,13 +23,17 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
 });
 
 exports.createQuiz = catchAsync(async (req, res, next) => {
-  const { title } = req.body;
+  const { title, courseID } = req.body;
 
   if (!title) {
     return next(new AppError(`Provide a valid title`, 400));
   }
 
   const quiz = await Quiz.create({ title });
+
+  const course = await Course.findOne({ _id: courseID });
+  course.quizzes.push(quiz._id);
+  await course.save();
 
   res.json({
     status: true,
@@ -55,13 +61,16 @@ exports.updateQuiz = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteQuiz = catchAsync(async (req, res, next) => {
-  const { title } = req.body;
+  const { title, courseID } = req.body;
 
   if (!title.trim()) {
     return next(new AppError(`Provide a valid title`, 400));
   }
 
   const quiz = await Quiz.findOneAndRemove({ title });
+  const course = await Course.findOne({ _id: courseID });
+  course.quizzes.splice(course.quizzes.indexOf(quiz._id), 1);
+  await course.save();
 
   if (!quiz)
     return next(new AppError(`No quiz is present with title: ${title}`));

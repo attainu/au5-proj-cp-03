@@ -1,4 +1,4 @@
-const ebook = require('../models/ebookModel')
+const Ebook = require("../models/ebookModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 exports.getebook = catchAsync(async (req, res, next) => {
@@ -44,21 +44,17 @@ exports.saveebook = catchAsync(async (req, res, next) => {
 
   //upload the file to the server
 
-
-
   //save the file path of the server to the mongodb
-  const ebookobj = new ebook({
+  const ebookobj = new Ebook({
     description,
     filepath: file,
     name: filename
   })
   await ebook.findOne({ file: file }).then(result => {
     if (!result) {
-      ebookobj.save().then(res.json('File saved Succesfully'))
+      ebookobj.save().then(res.json("File saved Succesfully"));
+    } else {
+      res.json("File already present");
     }
-    else {
-      res.json('File already present')
-    }
-  })
-
+  });
 });
