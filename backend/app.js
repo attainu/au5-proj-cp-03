@@ -1,6 +1,7 @@
 const express = require("express");
 
 const app = express();
+const cors = require('cors')
 const userRoutes = require("./routes/userRoutes");
 const video = require("./routes/videoRoutes");
 const course = require("./routes/courseRoutes");
@@ -14,7 +15,7 @@ const globalErrorHandler = require("./controllers/errorController");
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-
+app.use(cors())
 app.use("/api", video);
 app.use("/api", course);
 app.use("/api", ebook);

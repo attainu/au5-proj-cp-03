@@ -1,6 +1,7 @@
 const mongoose = require("mongoose"); // Erase if already required
 
 const videoSchema = new mongoose.Schema({
+  courseid: String,
   name: {
     type: String,
     required: true,

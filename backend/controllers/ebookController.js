@@ -1,6 +1,7 @@
 const Ebook = require("../models/ebookModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const storage = require('../utils/firebaseconfig')
 exports.getebook = catchAsync(async (req, res, next) => {
   const { name } = req.body;
   console.log(req.body);
@@ -29,6 +30,7 @@ exports.saveebook = catchAsync(async (req, res, next) => {
 
     file = await req.file.path
     filename = await req.file.filename
+    console.log(file, filename)
   }
   else {
     res.json('File not found')
@@ -50,8 +52,11 @@ exports.saveebook = catchAsync(async (req, res, next) => {
     filepath: file,
     name: filename
   })
-  await ebook.findOne({ file: file }).then(result => {
+
+  await Ebook.findOne({ name: filename }).then(result => {
+    console.log(result)
     if (!result) {
+
       ebookobj.save().then(res.json("File saved Succesfully"));
     } else {
       res.json("File already present");

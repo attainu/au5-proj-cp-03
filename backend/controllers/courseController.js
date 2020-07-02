@@ -6,6 +6,9 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.getcourses = async (req, res) => {
   res.json({ msg: "here you go" });
+  //scan through the course 
+  //filter out on the basis of course
+
 };
 
 exports.createcourse = catchAsync(async (req, res) => {
