@@ -23,18 +23,13 @@ exports.getebook = catchAsync(async (req, res, next) => {
 
 exports.saveebook = catchAsync(async (req, res, next) => {
   const { description } = req.body;
-  console.log(req.file)
-  let file = ''
-  let filename = ''
-  if (req.file.path) {
+  console.log("file",req.file,description)
 
-    file = await req.file.path
-    filename = await req.file.filename
-    console.log(file, filename)
-  }
-  else {
-    res.json('File not found')
-  }
+  const file = await req.file.path;
+
+
+  const  filename = await req.file.filename
+
   //validate the data
   if (!description) {
     return next(new AppError("Please provide Description", 400));

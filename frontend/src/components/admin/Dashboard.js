@@ -25,14 +25,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import Button from '@material-ui/core/Button';
-import Video from './Video'
-import Assignment from './Assignment'
-import Quiz from './Quiz'
-import Ebook from './Ebook'
-import Profile from './Profile'
-
-import Report from './Report'
-
+import EnrollTeacher from './EnrollTeacher'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -138,7 +131,7 @@ export default function Dashboard() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            <MeetingRoomIcon /> <Link className={classes.home} to='/t/dashboard'> Teacher Dashboard</Link>
+                            <MeetingRoomIcon /> <Link className={classes.home} to='/a/dashboard'>Admin Dashboard</Link>
                         </Typography>
                         <Button color="inherit"  >
                            
@@ -165,30 +158,30 @@ export default function Dashboard() {
                     </div>
                     <Divider />
                     <List>
-                      
-                        <ListItem button component={Link} to='/t/dashboard/assignment'>
+                       
+                        <ListItem button component={Link} to='/s/dashboard/assignment'>
 
 
 
-                            <ListItemText >Assignment</ListItemText>
-
-                        </ListItem>
-                        <ListItem button component={Link} to='/t/dashboard/quiz' >
-
-
-                            <ListItemText>Quiz</ListItemText>
+                            <ListItemText >Enroll Student</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/t/dashboard/videos'>
+                        <ListItem button component={Link} to='/a/dashboard/enrollteacher' >
 
 
-                            <ListItemText>Videos</ListItemText>
+                            <ListItemText>Enroll Teacher</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/t/dashboard/ebook'>
+                        <ListItem button component={Link} to='/s/dashboard/videos'>
 
 
-                            <ListItemText>Ebook</ListItemText>
+                            <ListItemText>Courses</ListItemText>
+
+                        </ListItem>
+                        <ListItem button component={Link} to='/s/dashboard/ebook'>
+
+
+                            <ListItemText>Staff</ListItemText>
 
                         </ListItem>
                     </List>
@@ -198,16 +191,16 @@ export default function Dashboard() {
                         <ListItem button component={Link} to='/s/dashboard/'>
 
 
-                            <ListItemText>Courses</ListItemText>
+                            <ListItemText>Ongoing Courses</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/t/dashboard/report'>
+                        <ListItem button component={Link} to='/s/dashboard/report'>
 
 
                             <ListItemText>Report</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/t/dashboard/profile'>
+                        <ListItem button component={Link} to='/s/dashboard/profile'>
 
 
                             <ListItemText>Profile</ListItemText>
@@ -222,13 +215,7 @@ export default function Dashboard() {
                 >
                     <div className={classes.drawerHeader} />
                     <Switch>
-                        <Route exact path="/t/dashboard/assignment" component={Assignment} />
-                        <Route exact path="/t/dashboard/quiz" component={Quiz} />
-                        <Route exact path="/t/dashboard/videos" component={Video} />
-                        <Route exact path="/t/dashboard/ebook" component={Ebook} />
-                        <Route exact path='/t/dashboard/report' component={Report} />
-                        <Route exact path='/t/dashboard/profile' component={Profile} />
-                        
+                       <Route exact path='/a/dashboard/enrollteacher' component={EnrollTeacher}/>
                         
                     </Switch>
                 </main>

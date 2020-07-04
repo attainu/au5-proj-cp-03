@@ -3,7 +3,7 @@ const Course = require('../models/courseModel')
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const cloudinary = require("cloudinary").v2;
-//Get videos on the basis of name of the video
+//Get videos on the basis of course
 //Get All the videos
 
 exports.getvideos = async (req, res) => {

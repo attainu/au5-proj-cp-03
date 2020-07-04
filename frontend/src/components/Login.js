@@ -11,7 +11,7 @@ export default class Login extends Component {
                     >
                         <div className="m-auto w-lg-75 w-xl-50">
                             <h2 className="text-info font-weight-light mb-5">
-                                <i className="fa fa-diamond" />
+                                {/* <i className="fa fa-diamond" /> */}
                     &nbsp;E Learn School
                   </h2>
                             <form>

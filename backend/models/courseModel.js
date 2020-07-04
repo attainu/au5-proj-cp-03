@@ -18,6 +18,7 @@ const courseSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+
   startDate: Date,
   endDate: Date,
   lectureVideos: {

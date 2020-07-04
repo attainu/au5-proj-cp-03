@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Report() {
+export default function Courses() {
     return (
         <div>
-            Report
+            My courses
         </div>
     )
 }
