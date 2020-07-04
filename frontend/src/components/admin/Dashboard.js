@@ -159,7 +159,7 @@ export default function Dashboard() {
                     <Divider />
                     <List>
                        
-                        <ListItem button component={Link} to='/s/dashboard/assignment'>
+                        <ListItem button component={Link} to='/s/dashboard/enrollstudent'>
 
 
 
@@ -172,13 +172,13 @@ export default function Dashboard() {
                             <ListItemText>Enroll Teacher</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/videos'>
+                        <ListItem button component={Link} to=''>
 
 
                             <ListItemText>Courses</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/ebook'>
+                        <ListItem button component={Link} to=''>
 
 
                             <ListItemText>Staff</ListItemText>
@@ -188,19 +188,19 @@ export default function Dashboard() {
                     <Divider />
                     <List>
 
-                        <ListItem button component={Link} to='/s/dashboard/'>
+                        <ListItem button component={Link} to=''>
 
 
                             <ListItemText>Ongoing Courses</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/report'>
+                        <ListItem button component={Link} to=''>
 
 
                             <ListItemText>Report</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/profile'>
+                        <ListItem button component={Link} to=''>
 
 
                             <ListItemText>Profile</ListItemText>
