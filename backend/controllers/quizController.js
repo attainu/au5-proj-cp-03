@@ -23,13 +23,13 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
 });
 
 exports.createQuiz = catchAsync(async (req, res, next) => {
-  const { title, courseID } = req.body;
+  const { title, courseID, duration } = req.body;
 
   if (!title) {
     return next(new AppError(`Provide a valid title`, 400));
   }
 
-  const quiz = await Quiz.create({ title });
+  const quiz = await Quiz.create({ title, courseID, duration });
 
   const course = await Course.findOne({ _id: courseID });
   course.quizzes.push(quiz._id);
@@ -82,27 +82,42 @@ exports.deleteQuiz = catchAsync(async (req, res, next) => {
 });
 
 exports.addQuestion = catchAsync(async (req, res, next) => {
-  const { title, question, options, answer } = req.body;
+  const { id, question, options, answer } = req.body;
 
-  if (!title || !question || !options) {
+  if (!id || !question || !options) {
     return next(
-      new AppError(`Provide a valid quiz title, question, options`, 400)
+      new AppError(`Provide a valid quiz id, question, options`, 400)
     );
   }
 
-  const quiz = await Quiz.findOne({ title });
+  const quiz = await Quiz.findOne({ _id: id }).populate({
+    path: "courseID",
+    select: "instructor",
+    populate: {
+      path: "instructor",
+      select: "email",
+    },
+  });
+
+  if (quiz.courseID.instructor.email !== req.user.email) {
+    return next(
+      new AppError("You don't have permission to perofrm this action", 403)
+    );
+  }
 
   if (!quiz) {
     return next(
       new AppError(
-        `Can't add questions as No quiz is present with title: ${title}`,
+        `Can't add questions as No quiz is present with id: ${id}`,
         400
       )
     );
   }
 
   if (await quiz.duplicateQuestion(question, quiz.question)) {
-    return next(new AppError(`Provide a unique question`, 400));
+    return next(
+      new AppError(`Question with same title is already present`, 400)
+    );
   }
 
   quiz.question.push({
@@ -118,12 +133,76 @@ exports.addQuestion = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateQuestion = catchAsync(async (req, res, next) => {
+  const {
+    id,
+    questionID,
+    updatedQuestion,
+    updatedOptions,
+    updatedAnswer,
+  } = req.body;
+
+  if (!id || !questionID) {
+    return next(
+      new AppError(
+        `Provide a valid quiz id and question number you want to update`,
+        400
+      )
+    );
+  }
+
+  if (!updatedQuestion && !updatedOptions && !updatedAnswer) {
+    return next(
+      new AppError(
+        `To update a question you need to update atleast a question and options`,
+        400
+      )
+    );
+  }
+
+  const quiz = await Quiz.findOne({ _id: id }).populate({
+    path: "courseID",
+    select: "instructor",
+    populate: {
+      path: "instructor",
+      select: "email",
+    },
+  });
+
+  if (quiz.courseID.instructor.email !== req.user.email) {
+    return next(
+      new AppError("You don't have permission to perofrm this action", 403)
+    );
+  }
+
+  if (!quiz) {
+    return next(new AppError(`Provide a valid quiz ID`, 400));
+  }
+
+  if (questionID > quiz.question.length) {
+    return next(new AppError(`Question number is out of range`, 400));
+  }
+
+  if (updatedQuestion) quiz.question[questionID - 1].question = updatedQuestion;
+  if (updatedOptions) quiz.question[questionID - 1].options = updatedOptions;
+  if (updatedAnswer) quiz.question[questionID - 1].answer = updatedAnswer;
+
+  const updatedQuiz = await quiz.save();
+
+  res.json({
+    status: true,
+    message: `Question has been updated successfully`,
+    data: updatedQuiz,
+  });
+});
+
 exports.deleteQuestion = catchAsync(async (req, res, next) => {
-  const { title, question } = req.body;
+  const { id, question } = req.body;
 
-  const quiz = await Quiz.findOne({ title });
+  const quiz = await Quiz.findOne({ _id: id });
 
-  if (!quiz) next(new AppError(`Question: ${question} is not present`, 400));
+  if (!quiz)
+    return next(new AppError(`Question: ${question} is not present`, 400));
 
   const find = await quiz.deleteQuestion(question, quiz.question);
 
@@ -134,6 +213,47 @@ exports.deleteQuestion = catchAsync(async (req, res, next) => {
 
   res.json({
     status: true,
+    data: quiz,
+  });
+});
+
+exports.publishQuiz = catchAsync(async (req, res, next) => {
+  const { id } = req.body;
+
+  if (!id) {
+    return next(new AppError(`Provide a valid quiz id`, 400));
+  }
+
+  const quiz = await Quiz.findOne({ _id: id }).populate({
+    path: "courseID",
+    select: "instructor",
+    populate: {
+      path: "instructor",
+      select: "email",
+    },
+  });
+
+  if (quiz.courseID.instructor.email !== req.user.email) {
+    return next(
+      new AppError("You don't have permission to perofrm this action", 403)
+    );
+  }
+
+  if (!id) {
+    return next(new AppError(`No quiz with this ID`, 400));
+  }
+  if (quiz.completed)
+    return next(
+      new AppError("Quiz has already been published to students", 400)
+    );
+
+  quiz.completed = true;
+  quiz.publish = true;
+
+  await quiz.save();
+  res.json({
+    status: true,
+    message: "Quiz has been successfully published to the course",
     data: quiz,
   });
 });

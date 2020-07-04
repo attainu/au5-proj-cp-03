@@ -8,12 +8,22 @@ const quizSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    courseID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
     publish: {
       type: Boolean,
       default: false,
     },
-    endDate: {
-      type: Date,
+    completed: {
+      type: Boolean,
+      default: false,
+    },
+    duration: {
+      type: Number,
+      required: true,
     },
     question: [
       {

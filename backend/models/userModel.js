@@ -71,6 +71,10 @@ const userSchema = new mongoose.Schema({
           type: [{ type: mongoose.Schema.Types.ObjectId, ref: "AssignSubn" }],
           default: [],
         },
+        quizSubn: {
+          type: [{ type: mongoose.Schema.Types.ObjectId, ref: "QuizSubn" }],
+          default: [],
+        },
       },
     ],
     default: [],
