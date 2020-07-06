@@ -1,8 +1,7 @@
 import React from 'react';
+import { connect } from "react-redux";
 import {
     BrowserRouter as Router,
-    Switch,
-    Route,
     Link
 } from "react-router-dom";
 
@@ -20,17 +19,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
 
 import ListItemText from '@material-ui/core/ListItemText';
 
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import Button from '@material-ui/core/Button';
-import Video from './Video'
-import Assignment from './Assignment'
-import Quiz from './Quiz'
-import Ebook from './Ebook'
-import Profile from './Profile'
-import Report from './Report'
 
 const drawerWidth = 240;
 
@@ -103,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Dashboard() {
+function Dashboard() {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -137,13 +131,11 @@ export default function Dashboard() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            <MeetingRoomIcon /> <Link className={classes.home} to='/s/dashboard'>  ClassRoom Dashboard</Link>
+                            <Link className={classes.home} to='/t/dashboard'> Teacher Dashboard</Link>
                         </Typography>
-                        <Button color="inherit"  >
-                           
 
-                                Logout
-                       
+                        <Button color="inherit"  >
+                            Logout
                         </Button>
 
                     </Toolbar>
@@ -164,29 +156,27 @@ export default function Dashboard() {
                     </div>
                     <Divider />
                     <List>
-                        {/* {['Assignment', 'Quiz', 'Videos', 'Ebook'].map((text, index) => (
-                             
-                        ))} */}
-                        <ListItem button component={Link} to='/s/dashboard/assignment'>
+
+                        <ListItem button component={Link} to='/t/dashboard/assignment'>
 
 
 
                             <ListItemText >Assignment</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/quiz' >
+                        <ListItem button component={Link} to='/t/dashboard/quiz' >
 
 
                             <ListItemText>Quiz</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/videos'>
+                        <ListItem button component={Link} to='/t/dashboard/videos'>
 
 
                             <ListItemText>Videos</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/ebook'>
+                        <ListItem button component={Link} to='/t/dashboard/ebook'>
 
 
                             <ListItemText>Ebook</ListItemText>
@@ -199,16 +189,16 @@ export default function Dashboard() {
                         <ListItem button component={Link} to='/s/dashboard/'>
 
 
-                            <ListItemText>Enrolled Courses</ListItemText>
+                            <ListItemText>Courses</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/report'>
+                        <ListItem button component={Link} to='/t/dashboard/report'>
 
 
                             <ListItemText>Report</ListItemText>
 
                         </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/profile'>
+                        <ListItem button component={Link} to='/t/dashboard/profile'>
 
 
                             <ListItemText>Profile</ListItemText>
@@ -222,17 +212,15 @@ export default function Dashboard() {
                     })}
                 >
                     <div className={classes.drawerHeader} />
-                    <Switch>
-                        <Route exact path="/s/dashboard/assignment" component={Assignment} />
-                        <Route exact path="/s/dashboard/quiz" component={Quiz} />
-                        <Route exact path="/s/dashboard/videos" component={Video} />
-                        <Route exact path="/s/dashboard/ebook" component={Ebook} />
-                        <Route exact path='/s/dashboard/report' component={Report} />
-                        <Route exact path='/s/dashboard/profile' component={Profile} />
-                        
-                    </Switch>
                 </main>
             </div >
         </Router >
     );
 }
+
+const mapStateToProps = state => {
+    console.log(state)
+    return {};
+}
+
+export default connect(mapStateToProps)(Dashboard);

@@ -4,16 +4,16 @@ const Quiz = require("../models/quizModel");
 const Course = require("../models/courseModel");
 
 exports.getQuiz = catchAsync(async (req, res, next) => {
-  const { title } = req.body;
+  const { _id } = req.body;
 
-  if (!title) {
-    return next(new AppError(`Provide a valid title`, 400));
+  if (!_id) {
+    return next(new AppError(`Provide a valid quiz id`, 400));
   }
 
-  const quiz = await Quiz.findOne({ title });
+  const quiz = await Quiz.findOne({ _id });
 
   if (!quiz) {
-    return next(new AppError(`No quiz with title: ${title}`, 400));
+    return next(new AppError(`Invalid Quiz ID`, 400));
   }
 
   res.json({
@@ -23,13 +23,13 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
 });
 
 exports.createQuiz = catchAsync(async (req, res, next) => {
-  const { title, courseID, duration } = req.body;
+  const { title, courseID, duration, startTime } = req.body;
 
   if (!title) {
     return next(new AppError(`Provide a valid title`, 400));
   }
 
-  const quiz = await Quiz.create({ title, courseID, duration });
+  const quiz = await Quiz.create({ title, courseID, duration, startTime });
 
   const course = await Course.findOne({ _id: courseID });
   course.quizzes.push(quiz._id);

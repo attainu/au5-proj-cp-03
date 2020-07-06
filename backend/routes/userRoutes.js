@@ -20,4 +20,6 @@ router
     userController.removeStudentFromCourse
   );
 
+router.route("/").get(authController.protect, userController.getUser);
+
 module.exports = router;

@@ -13,7 +13,7 @@ class Login extends Component {
   }
 
   handleEmail = value => {
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let validEmail = re.test(value);
     this.setState({
       email: value,
@@ -124,11 +124,12 @@ class Login extends Component {
             }}
           >
             <p className="ml-auto small text-dark mb-2">
-              <a
-                className="text-dark"
-                href="https://images.pexels.com/photos/2675050/pexels-photo-2675050.jpeg"
-                target="/"
-              ></a>
+              <img src="https://images.pexels.com/photos/2675050/pexels-photo-2675050.jpeg"
+                alt="Class with benches"
+                style={{
+                  maxWidth: "100%"
+                }}
+              ></img>
               <br />
             </p>
           </div>
