@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-  user: {}
+  userId: localStorage.getItem('userId'),
+  user: {},
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -13,3 +14,5 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return stateCopy;
   }
 }
+
+export default userReducer;

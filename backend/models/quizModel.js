@@ -21,6 +21,10 @@ const quizSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startTime: {
+      type: Date,
+      required: true,
+    },
     duration: {
       type: Number,
       required: true,

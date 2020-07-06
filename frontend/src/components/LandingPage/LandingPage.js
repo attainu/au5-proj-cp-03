@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 export default function LandingPage() {
   return (
     <div>
-      <nav class="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black" }}>
-        <a class="navbar-brand mr-auto" href="/">Classroom</a>
+      <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black" }}>
+        <a className="navbar-brand mr-auto" href="/">Classroom</a>
         <div className="mx-5">
           <Link to="/login">
             <button className="btn btn-primary mx-4">Login</button>

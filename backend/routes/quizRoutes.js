@@ -7,7 +7,7 @@ const authController = require("../controllers/authController");
 
 router
   .route("/")
-  .get(quizController.getQuiz)
+  .get(authController.protect, quizController.getQuiz)
   .post(
     authController.protect,
     authController.restrict("instructor"),

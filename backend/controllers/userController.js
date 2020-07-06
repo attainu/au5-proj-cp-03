@@ -3,6 +3,36 @@ const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
+exports.getUser = catchAsync(async (req, res, next) => {
+  const { type } = req.query;
+  const { _id } = req.user;
+  let user;
+  if (type) {
+    if (req.user.role === "student") {
+      user = await User.findOne({ _id }).populate({
+        path: "studentCourses.courseID",
+        select: "courseID name description",
+        populate: {
+          path: "instructor",
+          select: "image name",
+        },
+      });
+      user.enrollString = undefined;
+    } else if (req.user.role === "instructor") {
+      user = await User.findOne({ _id }).populate({
+        path: "instructorCourses",
+      });
+    }
+  } else {
+    user = await User.findOne({ _id: req.user._id });
+  }
+  res.json({
+    status: true,
+    message: "User details have been received successfully",
+    data: user,
+  });
+});
+
 exports.addStudentToCourse = catchAsync(async (req, res, next) => {
   const { enrollID } = req.body;
   const { _id } = req.user;
