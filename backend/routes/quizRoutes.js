@@ -31,10 +31,22 @@ router
     authController.restrict("instructor"),
     quizController.addQuestion
   )
+  .put(
+    authController.protect,
+    authController.restrict("instructor"),
+    quizController.updateQuestion
+  )
   .delete(
     authController.protect,
     authController.restrict("instructor"),
     quizController.deleteQuestion
   );
+
+router.put(
+  "/publish",
+  authController.protect,
+  authController.restrict("instructor"),
+  quizController.publishQuiz
+);
 
 module.exports = router;

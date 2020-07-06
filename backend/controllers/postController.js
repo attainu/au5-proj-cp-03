@@ -43,13 +43,14 @@ exports.createPost = catchAsync(async (req, res, next) => {
       )
     );
   }
-  const file = await cloudinary.uploadFile(req, next);
 
   if (req.user.email !== course.instructor.email) {
     return next(
       new AppError(`You don't have the permission to perform this action`, 403)
     );
   }
+
+  const file = await cloudinary.uploadFile(req, next);
 
   const post = await Post.create({ courseID, message, file });
   course.posts.push(post._id);
@@ -86,23 +87,24 @@ exports.updatePost = catchAsync(async (req, res, next) => {
     );
   }
   const file = await cloudinary.uploadFile(req, next);
+
   if (type === "msg") {
     post = await Post.findByIdAndUpdate(
       { _id: postID },
-      { new: true },
-      { message }
+      { message },
+      { new: true }
     );
   } else if (type === "msg-file")
     post = await Post.findByIdAndUpdate(
       { _id: postID },
-      { new: true },
-      { message, file }
+      { message, file },
+      { new: true }
     );
   else if (type === "file")
     post = await Post.findByIdAndUpdate(
       { _id: postID },
-      { new: true },
-      { file }
+      { file },
+      { new: true }
     );
   else
     return next(
@@ -111,6 +113,7 @@ exports.updatePost = catchAsync(async (req, res, next) => {
         400
       )
     );
+
   res.json({
     status: true,
     message: `Post hase been updated successfully`,

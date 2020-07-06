@@ -10,6 +10,12 @@ const assingSubnSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  marks: {
+    type: Number,
+  },
+  totalMarks: {
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model("AssignSubn", assingSubnSchema);

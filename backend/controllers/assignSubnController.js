@@ -23,5 +23,10 @@ exports.assingmentSubn = catchAsync(async (req, res, next) => {
 
   const file = await cloudinary.uploadFile(req, next);
   const assingSubn = await AssignSubn.create({ assingmentID, file });
+  const { user } = req.user;
+
+  const index = user.studentCourses.findIndex(
+    (el) => `${el.courseID[0]}` === `${courseID}`
+  );
   return assingSubn;
 });

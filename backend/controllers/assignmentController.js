@@ -22,12 +22,12 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
 });
 
 exports.createAssignment = catchAsync(async (req, res, next) => {
-  const { message, courseID, endDate } = req.body;
+  const { message, courseID, endDate, title } = req.body;
 
-  if (!message && !req.files) {
+  if (!message && !req.files && !title) {
     return next(
       new AppError(
-        `A post can't empty, should contain atleast a message or file`,
+        `A post can't be empty, should contain atleast a message, file and title`,
         400
       )
     );

@@ -1,28 +1,29 @@
 import React from 'react';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 import Login from './components/Login'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import ForgetPassword from './components/ForgetPassword';
 import TeacherDashboard from './components/teacher'
 import Signup from './components/admin/Signup';
 import StudentDashboard from './components/student/Dashboard'
-import AdminDashboard from './components/admin/Dashboard'
+import AdminDashboard from './components/admin/Dashboard';
+import courses from "./components/courses/index"
 function App() {
   return (
     <Router>
-
       <div className="App">
-
         <Switch>
           <Route path='/register' component={Signup} />
-          <Route path='/login' component={Login} />
+          <Route exact path="/login"   >
+            {localStorage.getItem('token') ? <Redirect to='/courses' /> : <Login />}
+          </Route>
           <Route path='/reset' component={ForgetPassword} />
+          <Route path='/course' component={courses} />
           <Route path='/t/dashboard' component={TeacherDashboard} />
           <Route path='/s/dashboard' component={StudentDashboard} />
           <Route path='/a/dashboard' component={AdminDashboard} />
           <Route exact path='/' component={LandingPage} />
         </Switch>
-
       </div>
     </Router>
   );

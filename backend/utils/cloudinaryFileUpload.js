@@ -1,6 +1,6 @@
 const fs = require("fs");
 // eslint-disable-next-line node/no-unpublished-require
-const cloudinary = require("./cloudinaryconfig");
+const cloudinary = require("./cloudinary");
 const AppError = require("./appError");
 
 function uploadToCloudinary(image, next) {
@@ -42,6 +42,6 @@ exports.uploadFile = (req, next) => {
       response.then((res) => {
         resolve(res.secure_url);
       });
-    } else resolve("No File");
+    } else resolve("");
   });
 };

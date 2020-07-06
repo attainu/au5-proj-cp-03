@@ -8,6 +8,10 @@ const assignmentSchema = new mongoose.Schema(
       ref: "Course",
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
     message: {
       type: String,
       required: true,

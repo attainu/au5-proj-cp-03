@@ -1,16 +1,22 @@
 const express = require("express");
 
 const router = express.Router();
-const { getcourses, createcourse } = require("../controllers/courseController");
+const courseController = require("../controllers/courseController");
 const authController = require("../controllers/authController");
-//get list of courses
-router.get("/getcourses", getcourses);
 
-router.post(
-  "/createcourse",
-  authController.protect,
-  authController.restrict("instructor"),
-  createcourse
-);
+router.get("/:id", courseController.getcourse);
+
+router
+  .route("/")
+  .post(
+    authController.protect,
+    authController.restrict("instructor"),
+    courseController.createcourse
+  )
+  .put(
+    authController.protect,
+    authController.restrict("instructor"),
+    courseController.updateCourse
+  );
 
 module.exports = router;

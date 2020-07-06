@@ -18,9 +18,14 @@ const courseSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-
-  startDate: Date,
-  endDate: Date,
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
   lectureVideos: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
     default: [],
@@ -34,7 +39,7 @@ const courseSchema = new mongoose.Schema({
     default: [],
   },
   quizzes: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Assignment" }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }],
     default: [],
   },
   studentsEnrolled: {
@@ -47,6 +52,27 @@ const courseSchema = new mongoose.Schema({
     unique: true,
   },
 });
+
+// courseSchema.pre("findOneAndUpdate", async function (next) {
+//   console.log("Enterd middleware");
+//   if (new Date(this.startDate).getTime() > new Date(this.endDate).getTime()) {
+//     return next(
+//       new AppError(
+//         "Start date of a course can't be after the end date of the course",
+//         400
+//       )
+//     );
+//   }
+
+//   if (new Date(this.endDate).getTime() < new Date(this.startDate).getTime()) {
+//     return next(
+//       new AppError(
+//         "End date of a course can't be before the start date of the course",
+//         400
+//       )
+//     );
+//   }
+// });
 
 const Course = mongoose.model("Course", courseSchema);
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class index extends Component {
     render() {
@@ -11,63 +11,58 @@ export default class index extends Component {
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">
                             ELearn School
-                </a>
+            </a>
 
                         <div className="collapse navbar-collapse" id="navcol-1">
                             <ul className="nav navbar-nav ml-auto">
-                                <li className="nav-item active" >
+                                <li className="nav-item active">
                                     <a
                                         className="nav-link "
                                         style={{ color: "#ffffff" }}
                                         href="/"
                                     >
                                         <i className="fa fa-home" />
-                        &nbsp;Home
-                      </a>
+                    &nbsp;Home
+                  </a>
                                 </li>
-                                <li className="nav-item active" >
+                                <li className="nav-item active">
                                     <a
                                         className="nav-link "
                                         style={{ color: "#ffffff" }}
                                         href="/courses"
                                     >
                                         &nbsp;Courses
-                      </a>
+                  </a>
                                 </li>
-                                <li className="nav-item active" >
-                                    <a
-                                        className="nav-link"
-                                        style={{ color: "#ffffff" }}
-                                        href="/"
-                                    >
+                                <li className="nav-item active">
+                                    <a className="nav-link" style={{ color: "#ffffff" }} href="/">
                                         &nbsp;Features
-                      </a>
+                  </a>
                                 </li>
-                                <li className="nav-item active" >
+                                <li className="nav-item active">
                                     <a
                                         className="nav-link"
                                         style={{ color: "#ffffff" }}
                                         href="/about-us"
                                     >
                                         About Us
-                      </a>
+                  </a>
                                 </li>
-                                <li className="nav-item active" >
+                                <li className="nav-item active">
                                     <a
                                         className="nav-link"
                                         style={{ color: "#ffffff" }}
                                         href="/login"
                                     >
                                         <i className="fa fa-sign-in" />
-                        &nbsp;Sign In
-                      </a>
+                    &nbsp;Sign In
+                  </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
             </div>
-
-        )
+        );
     }
 }
