@@ -10,7 +10,10 @@ export default function LandingPage() {
           <Link to="/login">
             <button className="btn btn-primary mx-4">Login</button>
           </Link>
-          <button className="btn btn-primary">Signup</button>
+          <Link to="/register">
+
+            <button className="btn btn-primary">Signup</button>
+          </Link>
         </div>
       </nav>
       <section className="mx-auto mt-5 mb-5" style={{ width: "60vw", textAlign: "center" }}>

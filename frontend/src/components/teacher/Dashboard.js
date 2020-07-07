@@ -30,7 +30,7 @@ import Assignment from './Assignment'
 import Quiz from './Quiz'
 import Ebook from './Ebook'
 import Profile from './Profile'
-
+import Courses from '../courses/index'
 import Report from './Report'
 
 const drawerWidth = 240;
@@ -195,7 +195,7 @@ export default function Dashboard() {
                     <Divider />
                     <List>
 
-                        <ListItem button component={Link} to='/s/dashboard/'>
+                        <ListItem button component={Link} to='/t/dashboard/'>
 
 
                             <ListItemText>Courses</ListItemText>
@@ -228,7 +228,7 @@ export default function Dashboard() {
                         <Route exact path="/t/dashboard/ebook" component={Ebook} />
                         <Route exact path='/t/dashboard/report' component={Report} />
                         <Route exact path='/t/dashboard/profile' component={Profile} />
-                        
+                       
                         
                     </Switch>
                 </main>

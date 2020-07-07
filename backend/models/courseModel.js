@@ -42,6 +42,10 @@ const courseSchema = new mongoose.Schema({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }],
     default: [],
   },
+  ebooks: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ebook" }],
+    default: [],
+  },
   studentsEnrolled: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     default: [],

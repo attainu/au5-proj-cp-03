@@ -18,9 +18,23 @@ exports.getallvideos = async (req, res) => {
   });
 };
 exports.createvideo = catchAsync(async (req, res, next) => {
-  const { name, subject, chapter, courseId } = req.body;
+  const { name, subject, chapter, courseId, link } = req.body;
   console.log("File:", req.file, req.body)
-  const file = await req.file.path;
+  let url = ''
+  let file = ''
+  let filename = ''
+  if (req.file !== undefined) {
+    file = await req.file.path;
+    filename = await req.file.filename;
+
+  }
+
+  if (link) {
+    url = link
+  }
+  else (
+    url = file
+  )
 
   if (!courseId) {
     return next(new AppError("Please provide course ID", 400))
@@ -34,8 +48,8 @@ exports.createvideo = catchAsync(async (req, res, next) => {
   if (!chapter) {
     return next(new AppError("Please provide chapter", 400));
   }
-  if (!file) {
-    return next(new AppError("Please provide file", 400));
+  if (!url) {
+    return next(new AppError("Please choose a valid option", 400));
   }
 
   const videoObj = new Video({
@@ -43,14 +57,14 @@ exports.createvideo = catchAsync(async (req, res, next) => {
     name: name,
     subject: subject,
     chapter: chapter,
-    file: file,
+    file: url,
   });
   await Video.findOne({ name: name }).then((result) => {
     if (!result) {
       // eslint-disable-next-line no-shadow
       videoObj.save().then((result) => {
         if (result._id) {
-          Course.findOneAndUpdate({ courseID: courseId }, { lectureVideos: result._id }).then(
+          Course.findOneAndUpdate({ courseID: courseId }, { $push: { lectureVideos: result._id } }).then(
             console.log("success")
           )
         }

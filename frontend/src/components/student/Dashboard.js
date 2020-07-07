@@ -31,6 +31,7 @@ import Quiz from './Quiz'
 import Ebook from './Ebook'
 import Profile from './Profile'
 import Report from './Report'
+import Courses from './Courses';
 
 const drawerWidth = 240;
 
@@ -164,33 +165,8 @@ export default function Dashboard() {
                     </div>
                     <Divider />
                     <List>
-                        {/* {['Assignment', 'Quiz', 'Videos', 'Ebook'].map((text, index) => (
-                             
-                        ))} */}
-                        <ListItem button component={Link} to='/s/dashboard/assignment'>
-
-
-
-                            <ListItemText >Assignment</ListItemText>
-
-                        </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/quiz' >
-
-
-                            <ListItemText>Quiz</ListItemText>
-
-                        </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/videos'>
-
-
-                            <ListItemText>Videos</ListItemText>
-
-                        </ListItem>
-                        <ListItem button component={Link} to='/s/dashboard/ebook'>
-
-
-                            <ListItemText>Ebook</ListItemText>
-
+                        <ListItem>
+                            <ListItemText>Classes</ListItemText>
                         </ListItem>
                     </List>
                     <Divider />
@@ -229,7 +205,7 @@ export default function Dashboard() {
                         <Route exact path="/s/dashboard/ebook" component={Ebook} />
                         <Route exact path='/s/dashboard/report' component={Report} />
                         <Route exact path='/s/dashboard/profile' component={Profile} />
-                        
+                        <Route exact path='/s/dashboard' component={Courses}/>
                     </Switch>
                 </main>
             </div >
