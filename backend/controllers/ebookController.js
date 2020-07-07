@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 const Ebook = require("../models/ebookModel");
-const Course = require('../models/courseModel')
+const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 // const storage = require('../utils/firebaseconfig')
 
 //get ebooks on the basis of coursid
 exports.getebook = catchAsync(async (req, res, next) => {
-  const { courseid } = req.body;
+  const { courseid, name } = req.body;
   console.log(req.body);
 
   if (!name) {
@@ -30,21 +30,15 @@ exports.getebook = catchAsync(async (req, res, next) => {
 exports.saveebook = catchAsync(async (req, res, next) => {
   const { description, link, name, courseId } = req.body;
   console.log("file", req.file, description);
-  let url = ''
-  let file = ''
-  let filename = ''
+  let url = "";
+  let file = "";
   if (req.file !== undefined) {
     file = await req.file.path;
-    filename = await req.file.filename;
-
   }
 
   if (link) {
-    url = link
-  }
-  else (
-    url = 'http://localhost:4000/' + file
-  )
+    url = link;
+  } else url = `http://localhost:4000/${file}`;
   //validate the data
   if (!description) {
     return next(new AppError("Please provide Description", 400));
@@ -65,26 +59,28 @@ exports.saveebook = catchAsync(async (req, res, next) => {
   await Ebook.findOne({ name: name }).then((result) => {
     console.log("Found:", result);
     if (result == null) {
-      ebookobj.save().then(result => {
-        if (result._id) {
-          Course.findOneAndUpdate({ courseID: courseId }, { $push: { ebooks: result._id } }).then(
-            console.log("success")
-          )
-        }
-
-        else {
-          console.log("Course is not registered");
-
-        }
-      }).then(
-        res.json({
-          status: 'success',
-          msg: "File saved Succesfully"
-        }));
+      ebookobj
+        .save()
+        .then((result1) => {
+          if (result1._id) {
+            Course.findOneAndUpdate(
+              { courseID: courseId },
+              { $push: { ebooks: result._id } }
+            );
+          } else {
+            console.log("Course is not registered");
+          }
+        })
+        .then(
+          res.json({
+            status: "success",
+            msg: "File saved Succesfully",
+          })
+        );
     } else {
       res.json({
-        status: 'error',
-        msg: "File already present"
+        status: "error",
+        msg: "File already present",
       });
     }
   });

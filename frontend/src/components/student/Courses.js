@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paper, Box, Typography, List, ListItem, ListItemText, Divider } from '@material-ui/core'
-import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Courses() {
     return (

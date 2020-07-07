@@ -37,7 +37,7 @@ class Login extends Component {
         password: this.state.password
       });
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem('userId', res.data.data._id);
+      localStorage.setItem("data", JSON.stringify(res.data.data));
       this.props.dispatch({
         type: "SET_CURRENT_USER",
         payload: res.data.data

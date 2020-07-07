@@ -9,6 +9,7 @@ import StudentDashboard from './components/student/Dashboard'
 
 import courses from "./components/courses/index";
 import quiz from './components/Quiz/quiz';
+import Courses from './components/student/Courses';
 function App() {
   return (
     <Router>
@@ -22,9 +23,9 @@ function App() {
           <Route exact path='/courses' component={courses} />
           <Route path='/t/dashboard' component={TeacherDashboard} />
           <Route path='/s/dashboard' component={StudentDashboard} />
-
           <Route exact path='/courses/:id/quiz/:id1' component={quiz} />
           <Route exact path='/' component={LandingPage} />
+          <Route exact path='/courses/:id' component={Courses} />
         </Switch>
       </div>
     </Router>

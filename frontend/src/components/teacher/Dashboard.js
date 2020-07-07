@@ -30,7 +30,6 @@ import Assignment from './Assignment'
 import Quiz from './Quiz'
 import Ebook from './Ebook'
 import Profile from './Profile'
-import Courses from '../courses/index'
 import Report from './Report'
 
 const drawerWidth = 240;

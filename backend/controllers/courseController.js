@@ -29,7 +29,9 @@ exports.createcourse = catchAsync(async (req, res, next) => {
     posts,
     assignments,
   } = req.body;
+  console.log(req.body);
   const { errors, isValid } = validateCourse(req.body);
+  console.log(errors);
   if (!isValid) {
     return res.status(400).json(errors);
   }

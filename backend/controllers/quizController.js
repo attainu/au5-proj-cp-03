@@ -4,8 +4,7 @@ const Quiz = require("../models/quizModel");
 const Course = require("../models/courseModel");
 
 exports.getQuiz = catchAsync(async (req, res, next) => {
-  const { _id } = req.body;
-
+  const { _id } = req.query;
   if (!_id) {
     return next(new AppError(`Provide a valid quiz id`, 400));
   }
@@ -15,7 +14,6 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
   if (!quiz) {
     return next(new AppError(`Invalid Quiz ID`, 400));
   }
-
   res.json({
     status: true,
     data: quiz,

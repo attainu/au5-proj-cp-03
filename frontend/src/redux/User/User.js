@@ -1,6 +1,5 @@
 const INITIAL_STATE = {
-  userId: localStorage.getItem('userId'),
-  user: {},
+  user: JSON.parse(localStorage.getItem('data')),
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {

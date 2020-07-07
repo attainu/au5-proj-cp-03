@@ -12,6 +12,7 @@ const courseSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+    required: ["true", "Please provide a valid description"],
   },
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
@@ -20,11 +21,9 @@ const courseSchema = new mongoose.Schema({
   },
   startDate: {
     type: Date,
-    required: true,
   },
   endDate: {
     type: Date,
-    required: true,
   },
   lectureVideos: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],

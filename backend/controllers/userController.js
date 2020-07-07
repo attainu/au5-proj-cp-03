@@ -38,7 +38,10 @@ exports.addStudentToCourse = catchAsync(async (req, res, next) => {
   const { _id } = req.user;
 
   const course = await Course.findOne({ enrollString: enrollID });
-  if (!course) return next(new AppError(`Provide a valid course token`, 400));
+  if (!course)
+    return next(
+      new AppError(`Invalid enroll ID, No course is present with this ID`, 400)
+    );
 
   const user = await User.findOne({ _id });
 

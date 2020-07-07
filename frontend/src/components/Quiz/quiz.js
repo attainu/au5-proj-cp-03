@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import Axios from 'axios';
+import Dashboard from '../Dashboard/Dashboard';
+import QuizInstructor from './quizInstructor';
 
 class quiz extends Component {
   async componentDidMount() {
@@ -10,14 +11,18 @@ class quiz extends Component {
   render() {
     return (
       <div>
-
+        <Dashboard />
+        {this.props.user.role === "instructor" && <QuizInstructor />}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return {}
+  return {
+    user: state.user.user,
+    quizInstructor: state.quizInstructor
+  }
 }
 
 export default connect(mapStateToProps)(quiz)

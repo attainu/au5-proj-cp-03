@@ -3,7 +3,7 @@ const INITIAL_STATE = {
 }
 
 const courseCardReducer = (state = INITIAL_STATE, action) => {
-  let statecopy = JSON.parse(JSON.stringify(INITIAL_STATE));
+  let statecopy = JSON.parse(JSON.stringify(state));
   const { type, payload } = action;
   switch (type) {
     case "COURSE_CARD":

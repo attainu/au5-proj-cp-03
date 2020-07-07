@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -31,9 +32,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function CourseCard(props) {
+function CourseCard(props) {
   const classes = useStyles();
-  console.log(props.course._id, "YOLO");
+  console.log(props, "YOLO");
   return (
     <Card
       className={classes.root}
@@ -65,7 +66,7 @@ export default function CourseCard(props) {
                 }}
               >{props.course.courseID ? props.course.courseID : props.course[0].courseID}-{props.course.name ? props.course.name : props.course[0].name}</Link>
             </Typography>
-            {props.course.studentsEnrolled ?
+            {props.user.role === "instructor" ?
               <Typography className="mb-0">{props.course.studentsEnrolled.length} students</Typography>
               : <Typography className="mb-0">{props.course[0].instructor.name}</Typography>}
           </div>
@@ -80,8 +81,16 @@ export default function CourseCard(props) {
         </div>
       </CardContent>
       <CardActions className="border-top">
-        <Link to={props.course.instructor ? `/course/${props.course._id}` : `/course/${props.course[0]._id}`}><Button size="small">Course page</Button></Link>
+        <Link to={props.course.instructor ? `/courses/${props.course._id}` : `/courses/${props.course[0]._id}`}><Button size="small">Course page</Button></Link>
       </CardActions>
     </Card>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user
+  }
+}
+
+export default connect(mapStateToProps)(CourseCard);

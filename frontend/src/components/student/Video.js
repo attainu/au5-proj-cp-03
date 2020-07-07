@@ -8,7 +8,6 @@ export default function Video() {
     const url = 'http://localhost:4000/api/getallvideos'
     axios.get(url).then(response => response.data).then(data => setlink(data[0].file))
 
-    console.log(link);
 
     return (
 

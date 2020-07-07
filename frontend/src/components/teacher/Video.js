@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Paper, Divider, Grid, TextField, Button, Typography, Snackbar } from '@material-ui/core'
+import { Divider, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Snackbar } from '@material-ui/core';
 export default function Video() {
     const [name, setName] = useState('')
     const [subject, setSubject] = useState('')

@@ -43,7 +43,6 @@ class index extends Component {
 
   render() {
     const { courses } = this.props;
-    console.log(courses, "yoo");
     return (
       <div>
         <Dashboard />
@@ -54,7 +53,7 @@ class index extends Component {
             justifyContent: "space-evenly"
           }}>
             {courses.length ?
-              courses[0].startDate ?
+              this.props.user.user.role === "instructor" ?
                 courses.map(el => <CourseCard course={el} />)
                 : courses.map(el => <CourseCard course={el.courseID} />)
               :
