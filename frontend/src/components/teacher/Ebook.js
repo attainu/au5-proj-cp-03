@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
-import { Grid, TextField, Button } from '@material-ui/core'
+import { Grid, TextField, Button, Snackbar } from '@material-ui/core'
 export default function Ebook() {
     const [description, setDescription] = useState()
 
     const [file, setFile] = useState()
     const [name, setName] = useState()
     const [link, setLink] = useState()
+    const [courseid, setCourseid] = useState()
+    const [snackbarstate, setSnackbarstate] = useState()
+    const [snackbarmsg, setSnackbarmsg] = useState()
+    const handleClose = (e, reason) => {
+        if (e === 'clickaway') {
+            return
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
         let data = new FormData()
@@ -14,9 +22,14 @@ export default function Ebook() {
         data.append('name', name)
         data.append('file', file)
         data.append('link', link)
+        data.append('courseId', courseid)
         const url = 'http://localhost:4000/api/saveebook'
         Axios.post(url, data).then(result => {
-            console.log(result)
+            setSnackbarstate(true)
+            setSnackbarmsg(result.data.msg)
+            setInterval(() => {
+                window.location.reload()
+            }, 3000)
         })
     }
     return (
@@ -27,6 +40,19 @@ export default function Ebook() {
                     <div className="col-md-8">
                         <form onSubmit={handleSubmit}>
                             <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+
+
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+
+                                        label="CourseId"
+                                        autoFocus
+                                        onChange={e => setCourseid(e.target.value)}
+                                    />
+                                </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
 
@@ -109,6 +135,17 @@ export default function Ebook() {
                         </form>
                     </div>
                     <div className="col-md-2"></div>
+                    <Snackbar
+                        open={snackbarstate}
+                        anchorOrigin={
+                            {
+                                vertical: 'top', horizontal: 'right'
+                            }
+                        }
+                        message={snackbarmsg}
+                        autoHideDuration={3000}
+                        onClose={handleClose}
+                    />
                 </div>
             </div>
         </div>

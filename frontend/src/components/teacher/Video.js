@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Paper, Divider, Grid, TextField, Button, Typography } from '@material-ui/core'
+import { Paper, Divider, Grid, TextField, Button, Typography, Snackbar } from '@material-ui/core'
 export default function Video() {
     const [name, setName] = useState('')
     const [subject, setSubject] = useState('')
@@ -8,6 +8,13 @@ export default function Video() {
     const [file, setFile] = useState('')
     const [courseid, setcourseid] = useState()
     const [link, setLink] = useState()
+    const [snackbarstate, setSnackbarstate] = useState()
+    const [snackbarmsg, setSnackbarmsg] = useState()
+    const handleClose = (e, reason) => {
+        if (e === 'clickaway') {
+            return
+        }
+    }
     const onSubmit = (e) => {
         e.preventDefault()
         let data = new FormData()
@@ -20,8 +27,15 @@ export default function Video() {
 
 
         const url = 'http://localhost:4000/api/createvideo'
-        axios.post(url, data).then(response => console.log(response.data))
+        axios.post(url, data).then(response => {
+            setSnackbarstate(true)
+            setSnackbarmsg(response.data.msg)
+            setInterval(() => {
+                window.location.reload()
+            }, 3000)
+        })
     }
+
     return (
         <div>
             <div className="container">
@@ -89,12 +103,17 @@ export default function Video() {
 
 
                                         variant="outlined"
-                                        required
+
                                         fullWidth
 
                                         label="Please paste the video link"
                                         autoFocus
-                                        onChange={e => setLink(e.target.value)}
+
+                                        onChange={e => {
+                                            setFile('')
+                                            setLink(e.target.value)
+                                        }
+                                        }
                                     />
                                 </Grid>
                                 <Grid item xs={12} >
@@ -121,7 +140,7 @@ export default function Video() {
                                 </Grid>
 
                                 {/* <input type='file' name='file' id='file' placeholder='Select file to upload' onChange={e => setFile(e.target.files[0])} /> */}
-
+                                <br />
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -137,6 +156,17 @@ export default function Video() {
                     </div>
                     <div className="col-md-2"></div>
                 </div>
+                <Snackbar
+                    open={snackbarstate}
+                    anchorOrigin={
+                        {
+                            vertical: 'top', horizontal: 'right'
+                        }
+                    }
+                    message={snackbarmsg}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                />
             </div>
             <br />
             <Divider />
