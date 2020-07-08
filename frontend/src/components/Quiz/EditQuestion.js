@@ -22,19 +22,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewQuestion(props) {
+function EditQuestion(props) {
   const classes = useStyles();
 
   const handleQuestion = (event) => {
     props.dispatch({
-      type: "SET_NEW_QUESTION",
+      type: "SET_EDIT_QUESTION",
       payload: event.target.value,
     });
   };
 
   const handleOption = (event, index) => {
     props.dispatch({
-      type: "EDIT_NEW_OPTION",
+      type: "SET_EDIT_OPTION",
       payload: {
         index: index,
         value: event.target.value,
@@ -69,19 +69,10 @@ function NewQuestion(props) {
     });
   };
 
-  const handleAddQuestion = async () => {
-    props.dispatch({
-      type: "SET_BACKDROP",
-    });
+  const handleAddViewQuestion = async () => {
     try {
-      const res = await Axios.post(
-        "http://localhost:4000/api/quiz/question",
-        {
-          id: props.quiz.quizID,
-          question: props.question.question,
-          options: props.question.options,
-          answer: props.question.answer,
-        },
+      const res = await Axios.get(
+        `http://localhost:4000/api/quiz?_id=${props.quiz.quizID}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -93,18 +84,53 @@ function NewQuestion(props) {
         question: "",
         answer: "",
       });
-      console.log(res.data.data.question);
+      this.props.dispatch({
+        type: "SET_QUESTIONS",
+        payload: res.data.data.question,
+      });
+    } catch (error) { }
+    props.dispatch({
+      type: "VIEW_QUESTION",
+      payload: props.quiz.viewQuestion + 1,
+    });
+  };
+
+  const handleAddQuestion = async () => {
+    props.dispatch({
+      type: "SET_BACKDROP",
+    });
+    try {
+      let res = await Axios.put(
+        "http://localhost:4000/api/quiz/question",
+        {
+          id: props.quiz.quizID,
+          questionID: props.quiz.viewQuestion + 1,
+          updatedQuestion: props.question.question,
+          updatedOptions: props.question.options,
+          updatedAnswer: props.question.answer,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      props.dispatch({
+        type: "VIEW_QUESTION",
+        payload: props.quiz.viewQuestion,
+      });
+      res.data.data.question.push({
+        options: ["", ""],
+        question: "",
+        answer: "",
+      });
       props.dispatch({
         type: "SET_QUESTIONS",
         payload: res.data.data.question,
       });
       props.dispatch({
-        type: "VIEW_QUESTION",
-        payload: props.quiz.viewQuestion,
-      });
-      props.dispatch({
-        type: "NEW_QUESTION_INDEX",
-        payload: res.data.data.question.length - 1,
+        type: "EDIT_QUESTION_INDEX",
+        payload: "",
       });
     } catch (error) {
       console.log(error);
@@ -129,7 +155,7 @@ function NewQuestion(props) {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Typography variant="h4" color="primary">
-          Add New Question
+          Update Question
         </Typography>
         <Divider />
         <TextField
@@ -223,8 +249,18 @@ function NewQuestion(props) {
             }
             onClick={handleAddQuestion}
           >
-            Create Question
+            Update
           </Button>
+          {props.quiz.newQuestionIndex > props.quiz.viewQuestion && (
+            <Button
+              variant="contained"
+              className="mx-3"
+              color="primary"
+              onClick={handleAddViewQuestion}
+            >
+              NextQuestion
+            </Button>
+          )}
         </div>
       </Paper>
     </div>
@@ -238,4 +274,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(NewQuestion);
+export default connect(mapStateToProps)(EditQuestion);

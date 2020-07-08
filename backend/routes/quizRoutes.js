@@ -5,6 +5,8 @@ const router = express.Router();
 const quizController = require("../controllers/quizController");
 const authController = require("../controllers/authController");
 
+router.get("/:_id", authController.protect, quizController.getQuiz);
+
 router
   .route("/")
   .get(authController.protect, quizController.getQuiz)

@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import Dashboard from '../Dashboard/Dashboard';
 import QuizInstructor from './quizInstructor';
+import { withRouter } from 'react-router';
+// import Axios from 'axios';
 
 class quiz extends Component {
   async componentDidMount() {
-    // let res = await Axios.get()
+    this.props.dispatch({
+      type: "SET_QUIZ_ID",
+      payload: this.props.match.params.id1
+    })
   }
 
   render() {
@@ -25,4 +30,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(quiz)
+export default withRouter(connect(mapStateToProps)(quiz));

@@ -10,22 +10,24 @@ import StudentDashboard from './components/student/Dashboard'
 import courses from "./components/courses/index";
 import quiz from './components/Quiz/quiz';
 import Courses from './components/student/Courses';
+import Profile from './components/profie/Profile';
 function App() {
   return (
     <Router>
       <div className="App">
         <Switch>
-          <Route path='/register' component={Signup} />
+          <Route exact path='/register' component={Signup} />
           <Route exact path="/login"   >
             {localStorage.getItem('token') ? <Redirect to='/courses' /> : <Login />}
           </Route>
-          <Route path='/reset' component={ForgetPassword} />
+          <Route exact path='/reset' component={ForgetPassword} />
           <Route exact path='/courses' component={courses} />
-          <Route path='/t/dashboard' component={TeacherDashboard} />
-          <Route path='/s/dashboard' component={StudentDashboard} />
+          <Route exact path='/t/dashboard' component={TeacherDashboard} />
+          <Route exact path='/s/dashboard' component={StudentDashboard} />
           <Route exact path='/courses/:id/quiz/:id1' component={quiz} />
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/courses/:id' component={Courses} />
+          <Route exact path="/profile" component={Profile} />
         </Switch>
       </div>
     </Router>

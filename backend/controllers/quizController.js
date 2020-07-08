@@ -5,6 +5,7 @@ const Course = require("../models/courseModel");
 
 exports.getQuiz = catchAsync(async (req, res, next) => {
   const { _id } = req.query;
+
   if (!_id) {
     return next(new AppError(`Provide a valid quiz id`, 400));
   }
@@ -140,7 +141,7 @@ exports.updateQuestion = catchAsync(async (req, res, next) => {
     updatedAnswer,
   } = req.body;
 
-  if (!id || !questionID) {
+  if (!id || !(questionID >= 0)) {
     return next(
       new AppError(
         `Provide a valid quiz id and question number you want to update`,

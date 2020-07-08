@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   newAnswer: "",
   viewQuestion: 0,
   newQuestionIndex: 0,
+  editQuestionIndex: "",
 }
 
 const quizInstructorReduer = (state = INITIAL_STATE, action) => {
@@ -14,6 +15,10 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case "SET_QUIZ_ID":
+      stateCopy.quizID = payload;
+      return stateCopy;
+
     case "SET_QUESTIONS":
       stateCopy.questions = payload;
       return stateCopy;
@@ -23,7 +28,7 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
       return stateCopy;
 
     case "SET_NEW_QUESTION":
-      stateCopy.newQuestion = payload;
+      stateCopy.questions[stateCopy.newQuestionIndex].question = payload;
       return stateCopy;
 
     case "SET_NEW_OPTION":
@@ -31,11 +36,24 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
       return stateCopy;
 
     case "EDIT_NEW_OPTION":
-      stateCopy.newOptions[payload.options] = payload.option;
+      stateCopy.questions[stateCopy.viewQuestion].options[payload.index] = payload.value;
+      return stateCopy;
+
+    case "EDIT_NEW_ANSWER":
+      stateCopy.questions[stateCopy.viewQuestion].answer = payload;
+      return stateCopy;
+
+    case "ADD_NEW_OPTION":
+      stateCopy.questions[stateCopy.viewQuestion].options.push("");
       return stateCopy;
 
     case "VIEW_QUESTION":
       stateCopy.viewQuestion = payload;
+      return stateCopy;
+
+    case "REMOVE_NEW_OPTION":
+      console.log(payload)
+      stateCopy.questions[stateCopy.viewQuestion].options.splice(payload, 1);
       return stateCopy;
 
     case "NEW_QUESTION":
@@ -45,9 +63,26 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
       stateCopy.viewQuestion = payload;
       return stateCopy;
 
+    case "EDIT_QUESTION_INDEX":
+      stateCopy.editQuestionIndex = payload;
+      return stateCopy;
+
     case "NEW_QUESTION_INDEX":
       stateCopy.newQuestionIndex = payload;
       return stateCopy;
+
+    case "SET_DURATION":
+      stateCopy.duration = payload;
+      return stateCopy;
+
+    case "SET_EDIT_QUESTION":
+      stateCopy.questions[stateCopy.newQuestionIndex].question = payload;
+      return stateCopy;
+
+    case "SET_EDIT_OPTION":
+      stateCopy.questions[stateCopy.viewQuestion].options[payload.index] = payload.value;
+      return stateCopy;
+
 
     default:
       return stateCopy;
