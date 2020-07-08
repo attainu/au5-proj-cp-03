@@ -1,36 +1,59 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
 import { Grid, TextField, Button, Snackbar } from '@material-ui/core'
+import { storage, firebase } from "../../config/firebaseconfig";
+import FileUploader from "react-firebase-file-uploader";
 export default function Ebook() {
     const [description, setDescription] = useState()
 
     const [file, setFile] = useState()
+    const [filename, setFilename] = useState()
+
     const [name, setName] = useState()
     const [link, setLink] = useState()
     const [courseid, setCourseid] = useState()
     const [snackbarstate, setSnackbarstate] = useState()
     const [snackbarmsg, setSnackbarmsg] = useState()
+
+    const handleUpload = async (filename) => {
+        setFilename(filename)
+        console.log(filename)
+        const pdflink = await storage.ref('pdfs').child(filename).getDownloadURL()
+        await setLink(pdflink)
+        console.log(link)
+
+
+
+    }
     const handleClose = (e, reason) => {
         if (e === 'clickaway') {
             return
         }
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        let data = new FormData()
-        data.append('description', description)
-        data.append('name', name)
-        data.append('file', file)
-        data.append('link', link)
-        data.append('courseId', courseid)
-        const url = 'http://localhost:4000/api/saveebook'
-        Axios.post(url, data).then(result => {
-            setSnackbarstate(true)
-            setSnackbarmsg(result.data.msg)
-            setInterval(() => {
-                window.location.reload()
-            }, 3000)
-        })
+
+
+
+        if (link !== 'undefined') {
+            let data = new FormData()
+            data.append('description', description)
+            data.append('name', name)
+            data.append('file', file)
+            data.append('link', link)
+            data.append('courseId', courseid)
+            const url = 'http://localhost:4000/api/saveebook'
+            await Axios.post(url, data).then(result => {
+                setSnackbarstate(true)
+                setSnackbarmsg(result.data.msg)
+                setInterval(() => {
+                    window.location.reload()
+                }, 3000)
+            })
+        }
+        else {
+            console.log('error')
+        }
     }
     return (
         <div>
@@ -101,27 +124,22 @@ export default function Ebook() {
 
 
                                 </Grid>
+
                                 <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        type='file'
+                                    <FileUploader
 
-                                        variant="outlined"
+                                        name={name}
 
-                                        fullWidth
 
-                                        label=""
-                                        autoFocus
-                                        onChange={e => {
-                                            setLink('')
-                                            setFile(e.target.files[0])
-                                        }
-                                        }
+                                        storageRef={firebase.storage().ref("pdfs")}
+
+                                        onUploadSuccess={handleUpload}
+
+
                                     />
-                                </Grid>
-                                {/* <div className="form-group">
 
-                        <input type='file' name='file' id='file' placeholder='Select pdf to upload' onChange={e => setFile(e.target.files[0])} />
-                    </div> */}
+                                </Grid>
+
                                 <Button
                                     type="submit"
                                     fullWidth
