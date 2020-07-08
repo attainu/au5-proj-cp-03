@@ -63,6 +63,7 @@ exports.createvideo = catchAsync(async (req, res, next) => {
     if (!result) {
       // eslint-disable-next-line no-shadow
       videoObj.save().then((result) => {
+        console.log(result)
         if (result._id) {
           Course.findOneAndUpdate({ courseID: courseId }, { $push: { lectureVideos: result._id } }).then(
             console.log("success")
@@ -70,16 +71,16 @@ exports.createvideo = catchAsync(async (req, res, next) => {
         }
 
         else {
-          console.log("Course is not registered");
+          res.json({ "msg": "Course is not registered" });
 
         }
-      }).then(res.json("Saved Successfully"))
+      }).then(res.json({ "msg": "Saved Successfully" }))
 
       //update the course model with the url of the file
 
     } else {
 
-      res.json("Video of this name is already present");
+      res.json({ "msg": "Video of this name is already present" });
     }
 
   })
