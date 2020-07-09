@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { AppBar, Toolbar } from "@material-ui/core";
 
 class Login extends Component {
 
@@ -58,20 +59,30 @@ class Login extends Component {
 
   render() {
     return (
+
+      //navbar blue color
+
       <div className="container-fluid">
+
         {this.state.alert && <div className="alert alert-warning alert-dismissible fade show my-3" role="alert">
           <strong>Wrong Credentials!</strong> Invalid Email or password
           <button type="button" className="close" onClick={() => this.handleAlert()}>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>}
+        <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black", height: '50px' }}>
+          <a className="navbar-brand mr-auto" href="/">Classroom</a>
+
+
+        </nav>
         <div className="row mh-100vh">
+
           <div
             className="col-10 col-sm-8 col-md-6 col-lg-6 offset-1 offset-sm-2 offset-md-3 offset-lg-0 align-self-center d-lg-flex align-items-lg-center align-self-lg-stretch bg-white p-5 rounded rounded-lg-0 my-5 my-lg-0"
             id="login-block"
           >
             <div className="m-auto w-lg-75 w-xl-50">
-              <h2 className="text-info font-weight-light mb-5">
+              <h2 className=" font-weight-light mb-5">
                 {/* <i className="fa fa-diamond" /> */}
                 &nbsp;E Learn School
               </h2>
@@ -108,7 +119,7 @@ class Login extends Component {
                 </button>
               </form>
               <p className="mt-3 mb-0">
-                <a className="text-info small" href="/reset">
+                <a className=" small" href="/reset">
                   Forgot your email or password?
                 </a>
               </p>
@@ -127,7 +138,10 @@ class Login extends Component {
               <img src="https://images.pexels.com/photos/2675050/pexels-photo-2675050.jpeg"
                 alt="Class with benches"
                 style={{
-                  maxWidth: "100%"
+
+                  width: '100px',
+                  height: '100px'
+
                 }}
               ></img>
               <br />
