@@ -52,6 +52,7 @@ class index extends Component {
               flexWrap: "wrap",
               justifyContent: "space-evenly",
             }}
+            className="mt-4"
           >
             {courses.length ? (
               this.props.user.user.role === "instructor" ? (

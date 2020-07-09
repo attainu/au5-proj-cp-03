@@ -24,6 +24,10 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
       stateCopy.questions = payload;
       return stateCopy;
 
+    case "SET_PUBLISH":
+      stateCopy.published = payload;
+      return stateCopy;
+
     case "SET_TITLE":
       stateCopy.title = payload;
       return stateCopy;

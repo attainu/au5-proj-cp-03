@@ -42,6 +42,10 @@ class QuizInstructor extends Component {
         type: "SET_TITLE",
         payload: res.data.data.title,
       });
+      this.props.dispatch({
+        type: "SET_PUBLISH",
+        payload: res.data.data.publish
+      })
     } catch (error) {
       this.setState({
         warning: "Invalid quiz ID",

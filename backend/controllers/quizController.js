@@ -29,8 +29,6 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
     quiz.question = updateQuiz;
   }
 
-  console.log(quiz);
-
   res.json({
     status: true,
     data: quiz,

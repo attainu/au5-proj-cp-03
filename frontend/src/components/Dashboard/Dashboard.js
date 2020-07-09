@@ -221,13 +221,16 @@ function Dashboard(props) {
   );
   return (
     <>
-      <div className={classes.root}>
+      <div className={classes.root} style={{
+        height: "60px",
+      }}>
         <CssBaseline />
         <AppBar
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
+
         >
           <Toolbar>
             <IconButton
