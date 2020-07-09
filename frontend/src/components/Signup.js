@@ -1,168 +1,127 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
+import React, { useState } from 'react'
 
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Paper, Grid } from '@material-ui/core'
+import Axios from 'axios'
+export default function Signup() {
+    const [name, setName] = useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const [passwordConfirm, setPasswordConfirm] = useState()
+    const [role, setRole] = useState()
+    const [gender, setGender] = useState()
+    const [location, setLocation] = useState()
+    const handleRegister = (e) => {
+        e.preventDefault()
+        const payload = {
+            name, email, password, passwordConfirm, role, gender, location
+        }
+        const url = 'http://localhost:4000/api/users/signup'
+        Axios.post(url, payload).then(result => {
+            console.log(result)
+            if (result.status === 200) {
 
-function Copyright() {
+                window.location = '/login'
+            }
+        })
+    }
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://localhost:3000/">
-                E Learn ClassRoom
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-export default function SignUp() {
-    const classes = useStyles();
-
-    return (
-        <div>
-            <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black", height: '50px' }}>
+        <div style={{ backgroundImage: `url("https://images.pexels.com/photos/2096622/pexels-photo-2096622.jpeg")` }}>
+            <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black" }}>
                 <a className="navbar-brand mr-auto" href="/">Classroom</a>
 
-
             </nav>
-            <Container component="main" maxWidth="xs">
 
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
-        </Typography>
-                    <form className={classes.form} noValidate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="fullName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="fullName"
-                                    label="Full Name"
-                                    autoFocus
-                                />
-                            </Grid>
+            <div className="containter mt-2 " >
+                <div className="row">
 
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
+                    <div className="col-md-4"></div>
+                    <div className="col-md-4">
 
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
+                        <Paper elevation={3} style={{ paddingLeft: '10px', paddingRight: '10px', paddingTop: '10px' }}>
 
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="confirmpassword"
-                                    label="Confirm Password"
-                                    type="password"
-                                    id="confirmpassword" a
+                            <form>
+                                <Grid container
 
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="gender"
-                                    label="Gender"
-                                    type="password"
-                                    id="gender"
+                                    direction="column"
+                                    justify="center"
+                                    alignItems="stretch"
+                                >
+                                    <div className="form-group">
+                                        <label className="text-secondary">Full Name</label>
+                                        <input
+                                            className="form-control"
+                                            type="text"
+                                            required
 
-                                />
-                            </Grid>
+                                            inputMode="fullname"
+                                            onChange={e => setName(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="text-secondary">Email</label>
+                                        <input
+                                            className="form-control"
+                                            type="text"
+                                            required
 
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="location"
-                                    label="Location"
-                                    type="password"
-                                    id="location"
+                                            inputMode="email"
+                                            onChange={e => setEmail(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="text-secondary">Password</label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            required
 
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign Up
-          </Button>
-                        <Grid container justify="flex-end">
-                            <Grid item>
-                                <Link href="/login" variant="body2">
-                                    Already have an account? Sign in
-              </Link>
-                            </Grid>
-                        </Grid>
-                    </form>
+                                            inputMode="password"
+                                            onChange={e => setPassword(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="text-secondary">Confirm Password</label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            required
+
+                                            inputMode="confirmpassword"
+                                            onChange={e => setPasswordConfirm(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Choose Role</label>
+                                        <label class="radio-inline" style={{ paddingLeft: '20px' }}><input type="radio" value='instructor' name="optradio1" onChange={e => setRole(e.target.value)} />Instructor</label>
+                                        <label class="radio-inline" style={{ paddingLeft: '20px' }}><input type="radio" value='student' name="optradio1" onChange={e => setRole(e.target.value)} />Student</label>
+
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Choose Gender</label>
+                                        <label class="radio-inline" style={{ paddingLeft: '20px' }}><input type="radio" value='male' name="optradio2" onChange={e => setGender(e.target.value)} />Male</label>
+                                        <label class="radio-inline" style={{ paddingLeft: '20px' }}><input type="radio" value='female' name="optradio2" onChange={e => setGender(e.target.value)} />Female</label>
+
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="text-secondary">Location</label>
+                                        <input
+                                            className="form-control"
+                                            type="text"
+                                            required
+
+                                            inputMode="location"
+                                            onChange={e => setLocation(e.target.value)}
+                                        />
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onClick={handleRegister}>Submit</button>
+
+                                </Grid>
+                            </form>
+                        </Paper>
+                    </div>
+                    <div className="col-md-4"></div>
                 </div>
-                <Box mt={5}>
-                    <Copyright />
-                </Box>
-            </Container>
+            </div >
         </div >
-    );
+    )
 }
