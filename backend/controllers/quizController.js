@@ -9,12 +9,28 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
   if (!_id) {
     return next(new AppError(`Provide a valid quiz id`, 400));
   }
-
   const quiz = await Quiz.findOne({ _id });
 
   if (!quiz) {
     return next(new AppError(`Invalid Quiz ID`, 400));
   }
+
+  if (req.user.role === "student" && !quiz.publish) {
+    return next(
+      new AppError("This quiz is still isn't available to students", 403)
+    );
+  }
+
+  if (req.user.role === "student") {
+    const updateQuiz = quiz.question.map((el) => {
+      el.answer = undefined;
+      return el;
+    });
+    quiz.question = updateQuiz;
+  }
+
+  console.log(quiz);
+
   res.json({
     status: true,
     data: quiz,

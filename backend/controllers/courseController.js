@@ -9,7 +9,7 @@ const AppError = require("../utils/appError");
 exports.getcourse = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const course = await Course.findById({ _id: id }).populate({
-    path: "posts quizzes"
+    path: "posts quizzes ebooks studentsEnrolled"
   });
   res.json({
     status: true,

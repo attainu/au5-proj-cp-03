@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   quizID: "",
   title: "",
+  published: "",
   questions: [],
   newQuestion: "",
   newOptions: [],

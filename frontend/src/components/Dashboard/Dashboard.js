@@ -19,7 +19,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
-import { Menu, Button } from "@material-ui/core";
+import { Menu, Button, Backdrop, CircularProgress } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import CreateCourse from "../CreateCourse.js/CreateCourse";
@@ -96,6 +96,10 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   },
 }));
 
@@ -401,6 +405,9 @@ function Dashboard(props) {
           {props.error.success}
         </Alert>
       </Snackbar>
+      <Backdrop className={classes.backdrop} open={props.backdrop.show}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }
@@ -412,6 +419,7 @@ const mapStateToProps = (state) => {
     user: state.user.user,
     joinClass: state.joinClass,
     error: state.error,
+    backdrop: state.backdrop
   };
 };
 

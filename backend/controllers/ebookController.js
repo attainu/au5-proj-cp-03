@@ -61,8 +61,8 @@ exports.saveebook = catchAsync(async (req, res, next) => {
     if (result == null) {
       ebookobj
         .save()
-        .then((result) => {
-          if (result._id) {
+        .then((result1) => {
+          if (result1._id) {
             Course.findOneAndUpdate(
               { courseID: courseId },
               { $push: { ebooks: result._id } }

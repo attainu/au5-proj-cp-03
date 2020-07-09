@@ -4,7 +4,7 @@ const INITIAL_STATE = {
 
 const backdropReducer = (state = INITIAL_STATE, action) => {
   let statecopy = JSON.parse(JSON.stringify(state));
-  const { type, payload } = action;
+  const { type } = action;
   switch (type) {
     case "SET_BACKDROP":
       statecopy.show = true;
@@ -18,3 +18,5 @@ const backdropReducer = (state = INITIAL_STATE, action) => {
       return statecopy;
   }
 }
+
+export default backdropReducer;
