@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Grid } from '@material-ui/core'
-import { Paper, Box, Typography, List, ListItem, ListItemText, Divider } from '@material-ui/core'
-import TeacherVideo from '../teacher/Video'
-import StudentVideo from '../student/Video'
+import { Paper, Box, Typography, List, ListItem, ListItemText, Divider, Button } from '@material-ui/core'
+import TeacherVideoUpload from './TeacherVideoUpload'
+import TeacherEbookUpload from './TeacherUploadEbook'
+import StudentVideoPanel from './StudentVideoPanel'
+import StudentEbookPanel from './StudentEbookPanel'
 import { connect } from 'react-redux'
 import Axios from 'axios'
+
 class index extends Component {
+    state = {
+        showVideo: false,
+        showEbook: false
+    }
 
 
     async componentDidMount() {
@@ -24,6 +31,21 @@ class index extends Component {
         })
     }
     render() {
+        let isInstructor = false
+        let role = this.props.role
+
+        if (role === 'instructor') {
+            isInstructor = true
+        }
+        const handleVideo = () => {
+            this.setState({ showEbook: false })
+            this.setState({ showVideo: true })
+        }
+        const handleEbook = () => {
+            this.setState({ showVideo: false })
+            this.setState({ showEbook: true })
+        }
+
         return (
             <div>
                 <div className='container-fluid'>
@@ -72,7 +94,7 @@ class index extends Component {
 
 
 
-                                            <ListItemText style={{ textAlign: 'center' }}>Assignment</ListItemText>
+                                            <ListItemText style={{ textAlign: 'center' }} >Assignment</ListItemText>
 
                                         </ListItem>
                                         <Divider />
@@ -83,14 +105,14 @@ class index extends Component {
 
                                         </ListItem>
                                         <Divider />
-                                        <ListItem button >
+                                        <ListItem button onClick={handleVideo} >
 
 
                                             <ListItemText style={{ textAlign: 'center' }}>Videos</ListItemText>
 
                                         </ListItem>
                                         <Divider />
-                                        <ListItem button >
+                                        <ListItem button onClick={handleEbook} >
 
 
                                             <ListItemText style={{ textAlign: 'center' }}>Ebook</ListItemText>
@@ -103,16 +125,34 @@ class index extends Component {
                             </Grid>
                         </div>
                         <div className="col-md-7">
-                            <Paper>
-                                By default this area will show the Post the is there
-                                we will map the data of the posts
-                        </Paper>
+                            {this.state.showVideo ?
+                                <Grid elevation={3} style={{ paddingTop: '15px', paddingBottom: '15px' }} >
+                                    {isInstructor ? <TeacherVideoUpload /> : <StudentVideoPanel />}
+
+
+                                </Grid>
+                                :
+                                null
+                            }
+                            {this.state.showEbook ?
+                                <Grid elevation={3} style={{ paddingTop: '15px', paddingBottom: '15px' }} >
+                                    {isInstructor ? <TeacherEbookUpload /> : <StudentEbookPanel />}
+
+
+                                </Grid>
+                                :
+                                null
+                            }
+
+
+
+
 
                         </div>
                         <div className="col-md-1"></div>
                     </div>
                 </div>
-            </div>
+            </div >
 
         )
     }
@@ -120,7 +160,8 @@ class index extends Component {
 const mapStateToProps = (state) => {
     return {
         courseID: state.courseDashboard.courseID,
-        courseName: state.courseDashboard.courseName
+        courseName: state.courseDashboard.courseName,
+        role: state.user.user.role
     };
 };
 export default connect(mapStateToProps)(index)

@@ -8,7 +8,7 @@ const {
   getallvideos,
 } = require("../controllers/videoController");
 //getlistofvideos
-router.get("/getvideos", getvideos);
+router.get("/getvideos/:courseID", getvideos);
 //getallvideos
 router.get("/getallvideos", getallvideos);
 //insert video in the database

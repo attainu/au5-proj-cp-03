@@ -7,10 +7,12 @@ const cloudinary = require("cloudinary").v2;
 //Get All the videos
 
 exports.getvideos = async (req, res) => {
-  const { name } = req.body;
-  Video.findOne({ name: name }).then((video) => {
-    res.json(video);
-  });
+  const { courseID } = req.params;
+  console.log(req.params)
+  const videodata = await Course.find({ courseID: courseID }).populate({
+    path: "lectureVideos"
+  })
+  res.json({ "videodata": videodata })
 };
 exports.getallvideos = async (req, res) => {
   Video.find({}).then((videos) => {
