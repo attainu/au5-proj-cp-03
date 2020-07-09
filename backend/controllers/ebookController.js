@@ -7,29 +7,21 @@ const AppError = require("../utils/appError");
 
 //get ebooks on the basis of coursid
 exports.getebook = catchAsync(async (req, res, next) => {
-  const { courseid, name } = req.body;
-  console.log(req.body);
+  const { courseid } = req.params;
+  console.log(req.params);
 
-  if (!name) {
-    return next(new AppError(`Provide a valid name`, 400));
+  if (!courseid) {
+    return next(new AppError(`Provide a valid courseID`, 400));
   }
-
-  //find the ebooks in the course model and then return it to the user
-
-  const book = await Ebook.findOne({ courseid });
-
-  if (!book) {
-    return next(new AppError(`No Ebook with name: ${name}`, 400));
-  }
-  res.json({
-    status: true,
-    data: book,
-  });
+  const ebookdata = await Course.find({ courseID: courseid }).populate({
+    path: "ebooks"
+  })
+  res.json({ "ebookdata": ebookdata })
 });
 
 exports.saveebook = catchAsync(async (req, res, next) => {
   const { description, link, name, courseId } = req.body;
-  console.log("file", req.file, description);
+  console.log("CourseID", courseId, description);
   let url = "";
   let file = "";
   if (req.file !== undefined) {
@@ -60,13 +52,16 @@ exports.saveebook = catchAsync(async (req, res, next) => {
     console.log("Found:", result);
     if (result == null) {
       ebookobj
-        .save()
+        .save({ new: true })
         .then((result) => {
+          console.log(result)
           if (result._id) {
             Course.findOneAndUpdate(
               { courseID: courseId },
-              { $push: { ebooks: result._id } }
-            );
+              { $push: { ebooks: result._id }, new: true }
+            ).then(
+              result => console.log(result)
+            )
           } else {
             console.log("Course is not registered");
           }

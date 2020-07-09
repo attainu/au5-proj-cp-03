@@ -12,14 +12,16 @@ function Ebook(props) {
 
     const [name, setName] = useState();
     const [link, setLink] = useState();
-    const [courseid, setCourseid] = useState();
+
     const [snackbarstate, setSnackbarstate] = useState();
     const [snackbarmsg, setSnackbarmsg] = useState();
-
+    const [buttonstatus, setbuttonStatus] = useState()
     const handleUpload = async (filename) => {
+
         setFilename(filename);
         const pdflink = await storage.ref("pdfs").child(filename).getDownloadURL();
         await setLink(pdflink);
+        setbuttonStatus('false')
     };
     const handleClose = (e, reason) => {
         if (e === "clickaway") {
@@ -28,25 +30,27 @@ function Ebook(props) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        await setInterval(() => {
+            if (link !== "undefined") {
+                let data = new FormData();
+                data.append("description", description);
+                data.append("name", name);
+                data.append("file", file);
+                data.append("link", link);
+                data.append("courseId", props.courseID);
+                const url = "http://localhost:4000/api/saveebook";
+                Axios.post(url, data).then((result) => {
+                    setSnackbarstate(true);
+                    setSnackbarmsg(result.data.msg);
+                    setInterval(() => {
+                        window.location.reload();
+                    }, 3000);
+                });
+            } else {
+                console.log("error");
+            }
+        }, 5000)
 
-        if (link !== "undefined") {
-            let data = new FormData();
-            data.append("description", description);
-            data.append("name", name);
-            data.append("file", file);
-            data.append("link", link);
-            data.append("courseId", courseid);
-            const url = "http://localhost:4000/api/saveebook";
-            await Axios.post(url, data).then((result) => {
-                setSnackbarstate(true);
-                setSnackbarmsg(result.data.msg);
-                setInterval(() => {
-                    window.location.reload();
-                }, 3000);
-            });
-        } else {
-            console.log("error");
-        }
     };
     return (
         <div>
@@ -64,7 +68,7 @@ function Ebook(props) {
                                         disabled='true'
                                         label={props.courseID}
                                         autoFocus
-                                        onChange={(e) => setCourseid(e.target.value)}
+
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -112,14 +116,21 @@ function Ebook(props) {
                                     />
                                 </Grid>
 
-                                <Button
+                                {/* <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     color="primary"
+                                    
                                 >
                                     Submit
-                </Button>
+                </Button> */}
+                                <br />
+                                <button
+                                    className="btn btn-primary ml-40"
+                                    type="submit"
+                                    disabled={!link}
+                                >Submit</button>
                             </Grid>
                         </form>
                     </div>

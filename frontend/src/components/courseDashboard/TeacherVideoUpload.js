@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Divider, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Divider, Grid, TextField, Button } from '@material-ui/core';
 import { Snackbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 function Video(props) {
@@ -8,7 +8,7 @@ function Video(props) {
     const [subject, setSubject] = useState('')
     const [chapter, setChapter] = useState('')
     const [file, setFile] = useState('')
-    const [courseid, setcourseid] = useState()
+
     const [link, setLink] = useState()
     const [snackbarstate, setSnackbarstate] = useState()
     const [snackbarmsg, setSnackbarmsg] = useState()
@@ -57,7 +57,7 @@ function Video(props) {
                                         disabled='true'
                                         label={props.courseID}
                                         autoFocus
-                                        onChange={e => setcourseid(e.target.value)}
+
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
