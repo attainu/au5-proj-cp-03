@@ -8,6 +8,9 @@ import { withRouter } from 'react-router';
 class quiz extends Component {
   async componentDidMount() {
     this.props.dispatch({
+      type: "SET_BACKDROP",
+    });
+    this.props.dispatch({
       type: "SET_QUIZ_ID",
       payload: this.props.match.params.id1
     })

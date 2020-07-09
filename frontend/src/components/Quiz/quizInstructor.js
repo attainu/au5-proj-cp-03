@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Axios from "axios";
 import { Typography } from "@material-ui/core";
 import NewQuestion from "./NewQuestion";
@@ -47,6 +47,9 @@ class QuizInstructor extends Component {
         warning: "Invalid quiz ID",
       });
     }
+    this.props.dispatch({
+      type: "REMOVE_BACKDROP",
+    })
   }
   render() {
     console.log(this.props.quiz.questions, this.props.quiz.viewQuestion);
@@ -54,7 +57,7 @@ class QuizInstructor extends Component {
       <div>
         {this.state.warning && (
           <Typography variant="h3" align="center">
-            Invalid Quiz ID
+            Invalid Quiz.Go to <Link to="/courses">Courses</Link>
           </Typography>
         )}
         {this.state.warning.length === 0 && (

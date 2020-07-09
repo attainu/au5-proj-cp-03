@@ -17,10 +17,8 @@ export default function Ebook() {
 
   const handleUpload = async (filename) => {
     setFilename(filename);
-    console.log(filename);
     const pdflink = await storage.ref("pdfs").child(filename).getDownloadURL();
     await setLink(pdflink);
-    console.log(link);
   };
   const handleClose = (e, reason) => {
     if (e === "clickaway") {
