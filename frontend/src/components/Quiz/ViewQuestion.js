@@ -8,6 +8,7 @@ import {
   Button,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,35 @@ function ViewQuestion(props) {
       payload: props.quiz.viewQuestion,
     });
   };
+
+  const handlePublishQuiz = async () => {
+    try {
+      let res = await Axios.put("http://localhost:4000/api/quiz/publish", {
+        id: props.quiz.quizID
+      }, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      props.dispatch({
+        type: "SET_GLOBAL_SUCCESS",
+        payload: res.data.data.message
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        props.dispatch({
+          type: "SET_GLOBAL_WARNING",
+          payload: error.response.data.message
+        });
+      } else {
+        props.dispatch({
+          type: "SET_GLOBAL_WARNING",
+          payload: "Something went wrong! Please try again after sometime"
+        });
+      }
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -91,7 +121,7 @@ function ViewQuestion(props) {
             <Button
               variant="contained"
               color="primary"
-              className="mx-2"
+              className="mr-2"
               onClick={handlePrevQuestion}
             >
               Previous Question
@@ -115,6 +145,12 @@ function ViewQuestion(props) {
               Next Question
             </Button>
           )}
+          {!props.quiz.published && <Button
+            variant="contained"
+            color="primary"
+            onClick={handlePublishQuiz}
+            className="mx-2"
+          >Publich Quiz</Button>}
         </div>
       </Paper>
     </div>

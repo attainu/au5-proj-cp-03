@@ -232,7 +232,7 @@ function EditQuestion(props) {
           )}
           <Button
             variant="contained"
-            className="mx-3"
+            className="mx-2"
             color="primary"
             onClick={handleAddOption}
             disabled={props.question.options.length > 3}
@@ -254,7 +254,7 @@ function EditQuestion(props) {
           {props.quiz.newQuestionIndex > props.quiz.viewQuestion && (
             <Button
               variant="contained"
-              className="mx-3"
+              className="mx-2"
               color="primary"
               onClick={handleAddViewQuestion}
             >

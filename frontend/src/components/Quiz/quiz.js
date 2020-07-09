@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Dashboard from '../Dashboard/Dashboard';
 import QuizInstructor from './quizInstructor';
 import { withRouter } from 'react-router';
+import QuizStudent from './QuizStudent/QuizStudent';
 // import Axios from 'axios';
 
 class quiz extends Component {
@@ -21,6 +22,7 @@ class quiz extends Component {
       <div>
         <Dashboard />
         {this.props.user.role === "instructor" && <QuizInstructor />}
+        {this.props.user.role === "student" && <QuizStudent />}
       </div>
     )
   }

@@ -8,6 +8,7 @@ import createCourseReducer from "./CreateCourse/CreateCourse";
 import joinClassReducer from "./JoinClass/joinClass";
 import errorReducer from "./Error/errorReducer";
 import backdropReducer from "./Backdrop/backdrop";
+import quizStudentReducer from "./QuizStudent/QuizStudent";
 
 export default combineReducers({
   user: userReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
   newCourse: createCourseReducer,
   joinClass: joinClassReducer,
   error: errorReducer,
-  backdrop: backdropReducer
+  backdrop: backdropReducer,
+  quizStudent: quizStudentReducer
 });
