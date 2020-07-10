@@ -7,11 +7,11 @@ function Ebook(props) {
     const [description, setDescription] = useState([])
     const [link, setlink] = useState([])
 
-    useEffect(async () => {
+    useEffect(() => {
         const url = 'http://localhost:4000/api/getebook/'
         const id = props.courseID
         const finalurl = url + id
-        await axios.get(finalurl).then(response => response.data).then(data => {
+        axios.get(finalurl).then(response => response.data).then(data => {
             // console.log(data.ebookdata[0].ebooks[1].filepath);
 
             if (data.ebookdata[0].ebooks.length > 0) {
