@@ -9,7 +9,6 @@ import StudentDashboard from './components/student/Dashboard'
 
 import courses from "./components/courses/index";
 import quiz from './components/Quiz/quiz';
-import Courses from './components/student/Courses';
 import CoursesDashboard from './components/courseDashboard';
 import Profile from './components/profie/Profile';
 function App() {

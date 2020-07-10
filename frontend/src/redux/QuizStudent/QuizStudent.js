@@ -3,7 +3,6 @@ const INITIAL_STATE = {
   questions: [],
   duration: "",
   viewQuestion: 0,
-  duration: 0,
   name: "",
 }
 

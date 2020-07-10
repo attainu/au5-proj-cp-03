@@ -8,6 +8,10 @@ const AppError = require("../utils/appError");
 
 exports.getcourse = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+
+  if (!id) {
+    return next(new AppError(`Invalid request`, 400));
+  }
   const course = await Course.findById({ _id: id }).populate({
     path: "posts quizzes ebooks studentsEnrolled"
   });
@@ -15,6 +19,42 @@ exports.getcourse = catchAsync(async (req, res, next) => {
     status: true,
     message: `Course info has been retrieved successfully`,
     data: course,
+  });
+});
+
+exports.getCourses = catchAsync(async (req, res, next) => {
+  const { id, type, page = 1 } = req.query;
+
+  if (!id) {
+    return next(new AppError(`Provide a valid quizID`, 400));
+  }
+
+  if (!(type !== "lectureVideos" || type !== "posts" || type !== "assignments" || type !== "quizzes" || type !== "ebooks" || type !== "")) {
+    return next(new AppError(`Invalid type: ${type}`, 400));
+  }
+
+  let course;
+  if (!type) {
+    course = await Course.findById({ _id: id }).populate({
+      path: "posts quizzes ebooks studentsEnrolled"
+    });
+  } else {
+    course = await Course.findById({ _id: id }).populate({
+      path: type
+    });
+  }
+
+  const limit = 5;
+  const skip = ((page * 1) - 1) * limit;
+
+  if (type) {
+    course = course[type].slice(skip, skip + limit);
+  }
+
+  res.json({
+    status: true,
+    message: `Course details has been retrived sucessfully`,
+    data: course
   });
 });
 

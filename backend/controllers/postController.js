@@ -20,9 +20,10 @@ exports.getPost = catchAsync(async (req, res, next) => {
 });
 
 exports.createPost = catchAsync(async (req, res, next) => {
-  const { message, courseID } = req.body;
+  const { message, file, courseID } = req.body;
+  console.log(req.body);
 
-  if (!message && !req.files) {
+  if (!message && !file) {
     return next(
       new AppError(
         `A post can't empty, should contain atleast a message or file`,
@@ -35,6 +36,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
     path: "instructor",
     select: "email",
   });
+
   if (!course) {
     next(
       new AppError(
@@ -49,8 +51,6 @@ exports.createPost = catchAsync(async (req, res, next) => {
       new AppError(`You don't have the permission to perform this action`, 403)
     );
   }
-
-  const file = await cloudinary.uploadFile(req, next);
 
   const post = await Post.create({ courseID, message, file });
   course.posts.push(post._id);

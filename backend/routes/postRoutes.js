@@ -1,5 +1,5 @@
 const express = require("express");
-const fileUpload = require("express-fileupload");
+// const fileUpload = require("express-fileupload");
 
 const router = express.Router();
 const authController = require("../controllers/authController");
@@ -11,13 +11,13 @@ router
   .post(
     authController.protect,
     authController.restrict("instructor"),
-    fileUpload(),
+    // fileUpload(),
     postController.createPost
   )
   .put(
     authController.protect,
     authController.restrict("instructor"),
-    fileUpload(),
+    // fileUpload(),
     postController.updatePost
   )
   .delete(

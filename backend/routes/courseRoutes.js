@@ -8,6 +8,7 @@ router.get("/:id", courseController.getcourse);
 
 router
   .route("/")
+  .get(authController.protect, courseController.getCourses)
   .post(
     authController.protect,
     authController.restrict("instructor"),
