@@ -24,28 +24,27 @@ function Ebook(props) {
             return;
         }
     };
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        await setInterval(() => {
-            if (link !== "undefined") {
-                let data = new FormData();
-                data.append("description", description);
-                data.append("name", name);
-                data.append("file", file);
-                data.append("link", link);
-                data.append("courseId", props.courseID);
-                const url = "http://localhost:4000/api/saveebook";
-                Axios.post(url, data).then((result) => {
-                    setSnackbarstate(true);
-                    setSnackbarmsg(result.data.msg);
-                    setInterval(() => {
-                        window.location.reload();
-                    }, 3000);
-                });
-            } else {
-                console.log("error");
-            }
-        }, 5000)
+        console.log("LInk", link)
+
+
+        const payload = {
+            "description": description,
+            "name": name,
+            "link": link,
+            "courseId": props.courseID
+        }
+        console.log(payload)
+        const url = "http://localhost:4000/api/saveebook";
+        Axios.post(url, payload).then((result) => {
+            setSnackbarstate(true);
+            setSnackbarmsg(result.data.msg);
+            setInterval(() => {
+                window.location.reload();
+            }, 3000);
+        });
+
 
     };
     return (
@@ -77,7 +76,7 @@ function Ebook(props) {
                                         onChange={(e) => setName(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} >
                                     <TextField
                                         variant="outlined"
                                         required
@@ -104,29 +103,32 @@ function Ebook(props) {
                                     <label>Or</label>
                                 </Grid>
 
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12}>
                                     <FileUploader
                                         name={name}
+
                                         storageRef={firebase.storage().ref("pdfs")}
+                                        onUploadStart={handleStart}
+                                        onProgress={handleProgress}
                                         onUploadSuccess={handleUpload}
                                     />
                                 </Grid>
 
-                                {/* <Button
+                                <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     color="primary"
-                                    
+
                                 >
-                                    Submit
-                </Button> */}
+                                    {buttonstatus}
+                                </Button>
                                 <br />
-                                <button
+                                {/* <button
                                     className="btn btn-primary ml-40"
                                     type="submit"
                                     disabled={!link}
-                                >Submit</button>
+                                >Submit</button> */}
                             </Grid>
                         </form>
                     </div>

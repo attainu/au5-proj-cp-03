@@ -12,6 +12,7 @@ function Video(props) {
     const [link, setLink] = useState()
     const [snackbarstate, setSnackbarstate] = useState()
     const [snackbarmsg, setSnackbarmsg] = useState()
+    const [buttontext, setButtontext] = useState('Submit')
     const handleClose = (e, reason) => {
         if (e === 'clickaway') {
             return
@@ -19,6 +20,7 @@ function Video(props) {
     }
     const onSubmit = (e) => {
         e.preventDefault()
+        setButtontext('Please wait .....')
         let data = new FormData()
         data.append('courseId', props.courseID)
         data.append('name', name)
@@ -100,7 +102,7 @@ function Video(props) {
                                         onChange={e => setChapter(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} >
                                     <TextField
 
 
@@ -123,7 +125,7 @@ function Video(props) {
 
 
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} >
                                     <TextField
                                         type='file'
 
@@ -150,8 +152,8 @@ function Video(props) {
                                     color="primary"
 
                                 >
-                                    Submit
-          </Button>
+                                    {buttontext}
+                                </Button>
                             </Grid>
                         </form>
 
