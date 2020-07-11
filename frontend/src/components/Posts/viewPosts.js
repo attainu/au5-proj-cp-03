@@ -131,10 +131,10 @@ function ViewPosts(props) {
                   <Typography variant="body1" children={moment.utc(el.createdAt).local().format("DD MMMM YYYY HH:mm")} className="ml-2"></Typography>
                 </div>
               </div>
-              <div>
+              {props.user.role === "instructor" && < div >
                 <EditIcon onClick={() => handleEdit(el.message, el.file, el.filename, el._id)} className="mx-2" />
                 <DeleteIcon onClick={() => handleDeletePost(el._id)} className="mx-2" />
-              </div>
+              </div>}
             </div>
             <Divider />
             <Typography variant="subtitle1" children={el.message} className="p-3" />
