@@ -2,7 +2,7 @@ const Post = require("../models/postModel");
 const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const cloudinary = require("../utils/cloudinaryFileUpload");
+// const cloudinary = require("../utils/cloudinaryFileUpload");
 
 exports.getPost = catchAsync(async (req, res, next) => {
   const { postID } = req.body;
@@ -20,8 +20,7 @@ exports.getPost = catchAsync(async (req, res, next) => {
 });
 
 exports.createPost = catchAsync(async (req, res, next) => {
-  const { message, file, courseID } = req.body;
-  console.log(req.body);
+  const { message, file, courseID, filename } = req.body;
 
   if (!message && !file) {
     return next(
@@ -52,7 +51,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
     );
   }
 
-  const post = await Post.create({ courseID, message, file });
+  const post = await Post.create({ courseID, message, file, filename });
   course.posts.push(post._id);
   await course.save();
 
@@ -64,11 +63,11 @@ exports.createPost = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePost = catchAsync(async (req, res, next) => {
-  const { postID, message, type } = req.body;
+  const { postID, message, file } = req.body;
 
   if (!postID) return next(new AppError(`Provide a valid post ID`, 400));
 
-  if (!message && !req.files) {
+  if (!(message || file)) {
     return next(
       new AppError(
         `A post can't empty, should contain atleast a message or file`,
@@ -77,7 +76,10 @@ exports.updatePost = catchAsync(async (req, res, next) => {
     );
   }
 
-  let post = await Post.findOne({ _id: postID }).populate({ path: "courseID" });
+  const post = await Post.findOne({ _id: postID }).populate({
+    path: "courseID",
+  });
+
   if (!post) {
     return next(new AppError("Invalid post ID", 400));
   }
@@ -86,38 +88,14 @@ exports.updatePost = catchAsync(async (req, res, next) => {
       new AppError("Ypu don't have permission to perform this action", 403)
     );
   }
-  const file = await cloudinary.uploadFile(req, next);
 
-  if (type === "msg") {
-    post = await Post.findByIdAndUpdate(
-      { _id: postID },
-      { message },
-      { new: true }
-    );
-  } else if (type === "msg-file")
-    post = await Post.findByIdAndUpdate(
-      { _id: postID },
-      { message, file },
-      { new: true }
-    );
-  else if (type === "file")
-    post = await Post.findByIdAndUpdate(
-      { _id: postID },
-      { file },
-      { new: true }
-    );
-  else
-    return next(
-      new AppError(
-        `Incorrect type: ${type}. types allowed [msg, msg-file, file]`,
-        400
-      )
-    );
-
+  const newPost = await Post.findByIdAndUpdate({ _id: postID }, req.body, {
+    new: true,
+  });
   res.json({
     status: true,
     message: `Post hase been updated successfully`,
-    data: post,
+    data: newPost,
   });
 });
 
@@ -149,3 +127,29 @@ exports.deletePost = catchAsync(async (req, res, next) => {
     data: updatedPost,
   });
 });
+
+//  if (type === "msg") {
+//   post = await Post.findByIdAndUpdate(
+//     { _id: postID },
+//     { message },
+//     { new: true }
+//   );
+// } else if (type === "msg-file")
+//   post = await Post.findByIdAndUpdate(
+//     { _id: postID },
+//     { message, file },
+//     { new: true }
+//   );
+// else if (type === "file")
+//   post = await Post.findByIdAndUpdate(
+//     { _id: postID },
+//     { file },
+//     { new: true }
+//   );
+// else
+//   return next(
+//     new AppError(
+//       `Incorrect type: ${type}. types allowed [msg, msg-file, file]`,
+//       400
+//     )
+//   );

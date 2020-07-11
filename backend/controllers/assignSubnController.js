@@ -2,10 +2,10 @@ const AssignSubn = require("../models/assignSubnModel");
 const Assignment = require("../models/assignmentModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const cloudinary = require("../utils/cloudinaryFileUpload");
+const User = require("../models/userModel");
 
 exports.assingmentSubn = catchAsync(async (req, res, next) => {
-  const { assingmentID } = req.body;
+  const { assingmentID, file } = req.body;
 
   if (!assingmentID)
     return next(new AppError("Provide a valid user ID and assignment ID", 400));
@@ -21,12 +21,28 @@ exports.assingmentSubn = catchAsync(async (req, res, next) => {
       )
     );
 
-  const file = await cloudinary.uploadFile(req, next);
+  // Check if user is part of the course
+  // Create the AssignSubn
+  // Push the AssignSubn to Assignment and to the specific user
+
   const assingSubn = await AssignSubn.create({ assingmentID, file });
   const { user } = req.user;
 
   const index = user.studentCourses.findIndex(
-    (el) => `${el.courseID[0]}` === `${courseID}`
+    (el) => `${el.courseID[0]}` === `${assignment.courseID}`
   );
+
+  assignment.submissions.push(assingSubn);
+  user.studentCourses[index].assingSubn.push(assingSubn);
+
+  const newUser = await User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { studentCourses: user.studentCourses }
+  );
+
   return assingSubn;
 });
+
+// exports.updateAssignSubn = catchAsync(async (req, res, next) => {
+//   const { assingSubn }
+// });

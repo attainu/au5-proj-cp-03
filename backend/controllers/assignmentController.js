@@ -2,7 +2,7 @@ const Assignment = require("../models/assignmentModel");
 const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const cloudinary = require("../utils/cloudinaryFileUpload");
+// const cloudinary = require("../utils/cloudinaryFileUpload");
 const Post = require("../models/postModel");
 
 exports.getAssignment = catchAsync(async (req, res, next) => {
@@ -22,9 +22,9 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
 });
 
 exports.createAssignment = catchAsync(async (req, res, next) => {
-  const { message, courseID, endDate, title } = req.body;
+  const { message, courseID, endDate, title, file } = req.body;
 
-  if (!message && !req.files && !title) {
+  if (!message && !title) {
     return next(
       new AppError(
         `A post can't be empty, should contain atleast a message, file and title`,
@@ -53,7 +53,6 @@ exports.createAssignment = catchAsync(async (req, res, next) => {
       )
     );
   }
-  const file = await cloudinary.uploadFile(req, next);
 
   if (req.user.email !== course.instructor.email) {
     return next(

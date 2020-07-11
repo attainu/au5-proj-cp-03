@@ -16,7 +16,7 @@ const errorReducer = (state = INITIAL_STATE, action) => {
 
     case "SET_GLOBAL_SUCCESS":
       statecopy.success = payload;
-      statecopy.showWarning = true;
+      statecopy.showSuccess = true;
       return statecopy;
 
     case "REMOVE_GLOBAL_WARNING":
@@ -26,7 +26,7 @@ const errorReducer = (state = INITIAL_STATE, action) => {
 
     case "REMOVE_GLOBAL_SUCCESS":
       statecopy.success = "";
-      statecopy.showWarning = false;
+      statecopy.showSuccess = false;
       return statecopy;
 
     default:

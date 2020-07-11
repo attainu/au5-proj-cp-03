@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
-import { Paper, Avatar, Typography, TextField, Button } from '@material-ui/core';
+import { Paper, Avatar, Typography, TextField, Button, CircularProgress } from '@material-ui/core';
 import FileUploader from "react-firebase-file-uploader";
 import { storage, firebase } from "../../config/firebaseconfig";
+import { withRouter } from "react-router-dom"
+import CancelIcon from '@material-ui/icons/Cancel';
 import { connect } from "react-redux";
+import Axios from "axios";
 
 
 class PostsInstructor extends Component {
 
   state = {
     postView: true,
+    url: "",
+    message: "",
+    progress: 0,
+    filename: "",
   }
 
   handleView = () => {
@@ -22,9 +29,74 @@ class PostsInstructor extends Component {
   }
 
   handleUpload = async (filename) => {
-    console.log(filename);
     const pdflink = await storage.ref("pdfs").child(filename).getDownloadURL();
-    console.log(pdflink);
+    this.setState({
+      url: pdflink,
+      filename,
+      progress: 0
+    });
+    this.props.dispatch({
+      type: "SET_GLOBAL_SUCCESS",
+      payload: "File has been uploaded sucessfully",
+    })
+  };
+
+  handleProgress = (progress) => {
+    if (progress === 0) {
+      this.setState({
+        url: "",
+      });
+    }
+    this.setState({
+      progress
+    });
+  };
+
+  handleMessage = (e) => {
+    this.setState({
+      message: e.target.value
+    })
+  }
+
+  handlePost = async () => {
+    try {
+      await Axios.post("http://localhost:4000/api/post", {
+        courseID: this.props.match.params.id,
+        file: this.state.url,
+        filename: this.state.filename,
+        message: this.state.message,
+      }, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const res = await Axios.get(
+        `http://localhost:4000/api/course?id=${this.props.match.params.id}&type=posts&page=${this.props.posts.page}`,
+        {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      this.props.dispatch({
+        type: "SET_GLOBAL_SUCCESS",
+        payload: "Post has been created sucessfully"
+      })
+      this.props.dispatch({
+        type: "SET_POSTS",
+        payload: res.data.data
+      });
+      this.setState({
+        postView: true,
+        url: "",
+        message: "",
+        progress: 0,
+        filename: ""
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   render() {
@@ -44,7 +116,7 @@ class PostsInstructor extends Component {
           >
             <Avatar style={{ background: "purple" }} className="mx-2">{this.props.user.name[0]}</Avatar>
             <Typography
-              variant="p"
+              variant="body1"
               className="pl-3"
               style={{
                 display: "flex",
@@ -71,6 +143,7 @@ class PostsInstructor extends Component {
                 style={{
                   borderRadius: "10px"
                 }}
+                onChange={this.handleMessage}
               />
               <div
                 className="mt-3"
@@ -81,7 +154,8 @@ class PostsInstructor extends Component {
                 <div
                   style={{
                     display: "flex",
-                    flexGrow: "1"
+                    flexGrow: "1",
+                    alignItems: "center"
                   }}
                 >
                   <Button
@@ -91,30 +165,39 @@ class PostsInstructor extends Component {
                     onChange={(e) => this.handleFile(e)}
                   >
                     Upload File
-                    {/* <input
-                      type="file"
-                      style={{ display: "none" }}
-                      accept=".pdf,.jpeg,.jpg,.png"
-                    /> */}
                     <FileUploader
                       filename={file => file.name.split('.')[0]}
                       storageRef={firebase.storage().ref("pdfs")}
                       onUploadSuccess={this.handleUpload}
+                      onProgress={this.handleProgress}
                       style={{ display: "none" }}
                       accept=".pdf,.jpeg,.jpg,.png"
                     />
                   </Button>
+                  {(this.state.progress > 0) && <CircularProgress variant="static" value={this.state.progress} className="mx-2" />}
+                  {this.state.url.length > 0 && (
+                    <>
+                      <a href={this.state.url} target="_blank" className="mx-2" rel="noopener noreferrer">Uploaded File</a>
+                      <CancelIcon onClick={() => this.setState({ url: "" })} />
+                    </>
+                  )}
                 </div>
                 <Button
                   className="mx-2"
                   onClick={this.handleView}
                 >Cancel</Button>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={!(this.state.message.length > 0)}
+                  onClick={this.handlePost}
+                >
                   Post
-            </Button>
+              </Button>
               </div>
             </Paper>
-          )}
+          )
+        }
       </div>
     )
   }
@@ -123,7 +206,8 @@ class PostsInstructor extends Component {
 const mapStateToPorps = state => {
   return {
     user: state.user.user,
+    posts: state.posts
   }
 }
 
-export default connect(mapStateToPorps)(PostsInstructor);
+export default withRouter(connect(mapStateToPorps)(PostsInstructor));

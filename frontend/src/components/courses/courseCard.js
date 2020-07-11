@@ -66,8 +66,8 @@ function CourseCard(props) {
                 color="inherit"
                 to={
                   props.course._id
-                    ? `/course/${props.course._id}`
-                    : `/course/${props.course[0]._id}`
+                    ? `/courses/${props.course._id}`
+                    : `/courses/${props.course[0]._id}`
                 }
                 style={{
                   color: "white",

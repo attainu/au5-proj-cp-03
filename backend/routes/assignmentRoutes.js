@@ -7,7 +7,7 @@ const authController = require("../controllers/authController");
 
 router
   .route("/")
-  .get(assignmentController.getAssignment)
+  .get(authController.protect, assignmentController.getAssignment)
   .post(
     authController.protect,
     authController.restrict("instructor"),

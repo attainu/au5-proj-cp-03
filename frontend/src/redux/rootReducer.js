@@ -9,6 +9,8 @@ import joinClassReducer from "./JoinClass/joinClass";
 import errorReducer from "./Error/errorReducer";
 import backdropReducer from "./Backdrop/backdrop";
 import quizStudentReducer from "./QuizStudent/QuizStudent";
+import postsReducer from "./Posts/postsReducer";
+import postEditReducer from "./PostsEdit/postsEdit";
 
 export default combineReducers({
   user: userReducer,
@@ -19,5 +21,7 @@ export default combineReducers({
   joinClass: joinClassReducer,
   error: errorReducer,
   backdrop: backdropReducer,
-  quizStudent: quizStudentReducer
+  quizStudent: quizStudentReducer,
+  posts: postsReducer,
+  editPost: postEditReducer
 });

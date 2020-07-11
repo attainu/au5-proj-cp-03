@@ -15,6 +15,9 @@ const postSchema = new mongoose.Schema(
     file: {
       type: String,
     },
+    filename: {
+      type: String,
+    },
   },
   {
     timestamps: true,

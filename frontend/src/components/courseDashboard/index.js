@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import {
   Paper,
@@ -9,7 +8,6 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Button,
 } from "@material-ui/core";
 import TeacherVideoUpload from "./TeacherVideoUpload";
 import TeacherEbookUpload from "./TeacherUploadEbook";
@@ -26,17 +24,22 @@ class index extends Component {
   };
 
   async componentDidMount() {
+    this.props.dispatch({
+      type: "SET_BACKDROP",
+    });
     const url = "http://localhost:4000/api/course/";
     const temp = window.location.href;
     const id = temp.split("/");
     const finalurl = url + id[4];
     await Axios.get(finalurl).then((data) => {
       //console.log(data.data.data.courseID)
-
       this.props.dispatch({
         type: "COURSE_DASHBOARD",
         payload: data.data,
       });
+    });
+    this.props.dispatch({
+      type: "REMOVE_BACKDROP"
     });
   }
   render() {
@@ -78,9 +81,12 @@ class index extends Component {
                       paddingTop: "20px",
                     }}
                   >
-                    <Typography variant="h4" styles={{ color: "white" }}>
-                      {this.props.courseID}:{this.props.courseName}
+                    <Typography variant="h4" style={{ color: "white" }}>
+                      {this.props.courseID} - {this.props.courseName}
                     </Typography>
+                    {this.props.role === "instructor" && <Typography variant="h6" style={{ color: "white" }}>
+                      Enroll string for course - {this.props.enroll}
+                    </Typography>}
                   </Box>
                 </Paper>
               </div>
@@ -93,51 +99,55 @@ class index extends Component {
             <div className="row">
               <div className="col-md-1"></div>
               <div className="col-md-3">
-                <Grid alignItems="center" justify="center">
-                  <Paper elevation={3}>
-                    <List className="p-0">
-                      <ListItem button
-                        style={this.state.view === "Posts" ? styles : {}}
-                        onClick={() => handleView("Posts")}
-                      >
-                        <ListItemText style={{ textAlign: "center" }}>
-                          Post
+                <Grid justify="center" container={true}>
+                  <div>
+                    <Paper elevation={3} style={{
+                      width: "16rem"
+                    }}>
+                      <List className="p-0">
+                        <ListItem button
+                          style={this.state.view === "Posts" ? styles : {}}
+                          onClick={() => handleView("Posts")}
+                        >
+                          <ListItemText style={{ textAlign: "center" }}>
+                            Post
                       </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem button
-                        style={this.state.view === "Assignment" ? styles : {}}
-                        onClick={() => handleView("Assignment")}>
-                        <ListItemText style={{ textAlign: "center" }}>
-                          Assignment
+                        </ListItem>
+                        <Divider />
+                        <ListItem button
+                          style={this.state.view === "Assignment" ? styles : {}}
+                          onClick={() => handleView("Assignment")}>
+                          <ListItemText style={{ textAlign: "center" }}>
+                            Assignment
                       </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem button
-                        style={this.state.view === "Quiz" ? styles : {}}
-                        onClick={() => handleView("Quiz")}>
-                        <ListItemText style={{ textAlign: "center" }}>
-                          Quiz
+                        </ListItem>
+                        <Divider />
+                        <ListItem button
+                          style={this.state.view === "Quiz" ? styles : {}}
+                          onClick={() => handleView("Quiz")}>
+                          <ListItemText style={{ textAlign: "center" }}>
+                            Quiz
                       </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem button
-                        style={this.state.view === "Videos" ? styles : {}}
-                        onClick={() => handleView("Videos")}>
-                        <ListItemText style={{ textAlign: "center" }}>
-                          Videos
+                        </ListItem>
+                        <Divider />
+                        <ListItem button
+                          style={this.state.view === "Videos" ? styles : {}}
+                          onClick={() => handleView("Videos")}>
+                          <ListItemText style={{ textAlign: "center" }}>
+                            Videos
                       </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem button
-                        style={this.state.view === "Ebooks" ? styles : {}}
-                        onClick={() => handleView("Ebooks")}>
-                        <ListItemText style={{ textAlign: "center" }}>
-                          Ebook
+                        </ListItem>
+                        <Divider />
+                        <ListItem button
+                          style={this.state.view === "Ebooks" ? styles : {}}
+                          onClick={() => handleView("Ebooks")}>
+                          <ListItemText style={{ textAlign: "center" }}>
+                            Ebook
                       </ListItemText>
-                      </ListItem>
-                    </List>
-                  </Paper>
+                        </ListItem>
+                      </List>
+                    </Paper>
+                  </div>
                 </Grid>
               </div>
               <div className="col-md-7">
@@ -179,6 +189,7 @@ const mapStateToProps = (state) => {
   return {
     courseID: state.courseDashboard.courseID,
     courseName: state.courseDashboard.courseName,
+    enroll: state.courseDashboard.enrollString,
     role: state.user.user.role,
   };
 };

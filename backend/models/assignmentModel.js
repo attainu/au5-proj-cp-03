@@ -20,7 +20,7 @@ const assignmentSchema = new mongoose.Schema(
       type: String,
     },
     submissions: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "submissions" }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "AssignSubn" }],
       default: [],
     },
   },

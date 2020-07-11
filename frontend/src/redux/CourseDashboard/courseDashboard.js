@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     courseID: 'Course Details',
-    courseName: ''
+    courseName: '',
+    enrollString: '',
 }
 const courseDashboardReducer = (state = INITIAL_STATE, action) => {
     let statecopy = JSON.parse(JSON.stringify(state));
@@ -10,6 +11,7 @@ const courseDashboardReducer = (state = INITIAL_STATE, action) => {
         case "COURSE_DASHBOARD":
             statecopy.courseID = payload.data.courseID;
             statecopy.courseName = payload.data.name;
+            statecopy.enrollString = payload.data.enrollString;
             return statecopy;
         default:
             return statecopy;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Axios from 'axios';
-import Dashboard from '../../Dashboard/Dashboard';
+// import Dashboard from '../../Dashboard/Dashboard';
 import QuestionNumber from './QuestionNumber';
 import Question from './Question';
 import { Typography } from '@material-ui/core';

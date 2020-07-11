@@ -40,7 +40,12 @@ exports.getCourses = catchAsync(async (req, res, next) => {
     });
   } else {
     course = await Course.findById({ _id: id }).populate({
-      path: type
+      path: type,
+      options: {
+        sort: {
+          'updatedAt': -1
+        }
+      }
     });
   }
 

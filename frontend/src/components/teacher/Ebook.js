@@ -7,7 +7,6 @@ export default function Ebook() {
   const [description, setDescription] = useState();
 
   const [file, setFile] = useState();
-  const [filename, setFilename] = useState();
 
   const [name, setName] = useState();
   const [link, setLink] = useState();
@@ -16,7 +15,6 @@ export default function Ebook() {
   const [snackbarmsg, setSnackbarmsg] = useState();
 
   const handleUpload = async (filename) => {
-    setFilename(filename);
     const pdflink = await storage.ref("pdfs").child(filename).getDownloadURL();
     await setLink(pdflink);
   };

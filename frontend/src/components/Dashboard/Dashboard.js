@@ -203,6 +203,11 @@ function Dashboard(props) {
     });
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('data');
+  }
+
   const renderProfile = (
     <Menu
       id="profile"
@@ -216,7 +221,7 @@ function Dashboard(props) {
       <Link to="/profile">
         <MenuItem>Profile</MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>
   );
   return (

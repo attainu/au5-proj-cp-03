@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Grid, TextField, Button, Snackbar } from "@material-ui/core";
+import { Grid, TextField, Snackbar } from "@material-ui/core";
 import { storage, firebase } from "../../config/firebaseconfig";
 import FileUploader from "react-firebase-file-uploader";
 import { connect } from 'react-redux'
@@ -8,20 +8,16 @@ function Ebook(props) {
     const [description, setDescription] = useState();
 
     const [file, setFile] = useState();
-    const [filename, setFilename] = useState();
 
     const [name, setName] = useState();
     const [link, setLink] = useState();
 
     const [snackbarstate, setSnackbarstate] = useState();
     const [snackbarmsg, setSnackbarmsg] = useState();
-    const [buttonstatus, setbuttonStatus] = useState()
     const handleUpload = async (filename) => {
 
-        setFilename(filename);
         const pdflink = await storage.ref("pdfs").child(filename).getDownloadURL();
         await setLink(pdflink);
-        setbuttonStatus('false')
     };
     const handleClose = (e, reason) => {
         if (e === "clickaway") {
