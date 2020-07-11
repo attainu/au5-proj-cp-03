@@ -21,29 +21,26 @@ exports.getebook = catchAsync(async (req, res, next) => {
 
 exports.saveebook = catchAsync(async (req, res, next) => {
   const { description, link, name, courseId } = req.body;
-  console.log("CourseID", courseId, description);
-  let url = "";
-  let file = "";
-  if (req.file !== undefined) {
-    file = await req.file.path;
-  }
-
-  if (link) {
-    url = link;
-  } else url = `http://localhost:4000/${file}`;
+  console.log("Ebook Request Body", req.body);
+  let url = link
   //validate the data
+  if (!name) {
+    return next(new AppError("Please provide name", 400));
+  }
   if (!description) {
     return next(new AppError("Please provide Description", 400));
   }
-  // if (!file || !link) {
-  //   return next(new AppError("Please provide file or a url to the pdf", 400));
-  // }
-
+  if (!link) {
+    return next(new AppError("Please provide file or a url to the pdf", 400));
+  }
+  if (!courseId) {
+    return next(new AppError(`Provide a valid courseID`, 400));
+  }
   //upload the file to the server
 
   //save the file path of the server to the mongodb
   const ebookobj = new Ebook({
-    description,
+    description: description,
     filepath: url,
     name: name,
   });

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import Nav from '../Nav'
 export default function LandingPage() {
   return (
     <div>
-      <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black" }}>
+      {/* <nav className="navbar navbar-light bg-light" style={{ boxShadow: "0 4px 6px -7px black" }}>
         <a className="navbar-brand mr-auto" href="/">Classroom</a>
         <div className="mx-5">
           <Link to="/login">
@@ -15,7 +15,8 @@ export default function LandingPage() {
             <button className="btn btn-primary">Signup</button>
           </Link>
         </div>
-      </nav>
+      </nav> */}
+      <Nav title='Classroom' />
       <section className="mx-auto mt-5 mb-5" style={{ width: "60vw", textAlign: "center" }}>
         <h1 className="mb-4">Manage teaching and learning with Classroom</h1>
         <p style={{ fontSize: "18px" }}>Classroom helps students and teachers organize assignments, boost collaboration, and foster better communication.</p>
