@@ -18,3 +18,5 @@ router
     authController.restrict("instructor"),
     assignmentController.deleteAssignment
   );
+
+module.exports = router;

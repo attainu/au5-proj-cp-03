@@ -10,11 +10,13 @@ const assignmentSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      required: true,
     },
     message: {
       type: String,
       required: true,
+    },
+    filename: {
+      type: String,
     },
     file: {
       type: String,

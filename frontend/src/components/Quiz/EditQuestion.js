@@ -119,6 +119,10 @@ function EditQuestion(props) {
         type: "VIEW_QUESTION",
         payload: props.quiz.viewQuestion,
       });
+      props.dispatch({
+        type: "SET_GLOBAL_SUCCESS",
+        payload: `Question has been updated sucessfully`
+      })
       res.data.data.question.push({
         options: ["", ""],
         question: "",

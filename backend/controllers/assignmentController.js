@@ -22,7 +22,7 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
 });
 
 exports.createAssignment = catchAsync(async (req, res, next) => {
-  const { message, courseID, endDate, title, file } = req.body;
+  const { message, courseID, endDate, title, file, filename } = req.body;
 
   if (!message && !title) {
     return next(
@@ -60,10 +60,17 @@ exports.createAssignment = catchAsync(async (req, res, next) => {
     );
   }
 
-  const assignment = await Assignment.create({ courseID, message, file });
+  const assignment = await Assignment.create({
+    courseID,
+    message,
+    file,
+    filename,
+    title,
+  });
   course.assignments.push(assignment._id);
   await course.save();
 
+  console.log(assignment);
   res.json({
     status: true,
     message: "Assignment has been created sucessfully",

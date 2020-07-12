@@ -35,12 +35,17 @@ exports.assingmentSubn = catchAsync(async (req, res, next) => {
   assignment.submissions.push(assingSubn);
   user.studentCourses[index].assingSubn.push(assingSubn);
 
-  const newUser = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     { _id: req.user._id },
     { studentCourses: user.studentCourses }
   );
 
-  return assingSubn;
+  assignment.submissions.push(assingSubn._id);
+
+  res.json({
+    status: true,
+    message: "Assignment has been submitted sucessfully",
+  });
 });
 
 // exports.updateAssignSubn = catchAsync(async (req, res, next) => {
