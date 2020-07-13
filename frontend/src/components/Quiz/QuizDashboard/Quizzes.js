@@ -10,33 +10,35 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 class Quizzes extends Component {
 
   getQuiz = async (page) => {
-    console.log(page);
     try {
       const res = await Axios.get(`http://localhost:4000/api/course?id=${this.props.match.params.id}&type=quizzes&page=${page}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      console.log(res.data.data);
       if (res.data.data.length === 0) {
         this.props.dispatch({
           type: "SET_GLOBAL_SUCCESS",
           payload: `No quizzes`
         });
-        this.props.dispatch({
-          type: "INC_PAGE_QUIZ",
-          payload: page - 1
-        })
       } else {
         this.props.dispatch({
           type: "SET_QUIZ",
           payload: res.data.data
         });
       }
-
     } catch (error) {
-      console.log(error);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: "RESEST_PAGE"
+    });
+    this.props.dispatch({
+      type: "SET_QUIZ",
+      payload: []
+    });
   }
 
   handlePrevious = () => {

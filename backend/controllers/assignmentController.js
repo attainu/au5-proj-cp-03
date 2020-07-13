@@ -5,6 +5,21 @@ const AppError = require("../utils/appError");
 // const cloudinary = require("../utils/cloudinaryFileUpload");
 const Post = require("../models/postModel");
 
+exports.allAssignments = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const assingments = await Assignment.findById({ _id: id }).populate({
+    path: "submissions",
+    populate: {
+      path: "userID",
+    },
+  });
+
+  res.json({
+    data: assingments.submissions,
+  });
+});
+
 exports.getAssignment = catchAsync(async (req, res, next) => {
   const { assignmentID } = req.body;
 
@@ -70,7 +85,6 @@ exports.createAssignment = catchAsync(async (req, res, next) => {
   course.assignments.push(assignment._id);
   await course.save();
 
-  console.log(assignment);
   res.json({
     status: true,
     message: "Assignment has been created sucessfully",

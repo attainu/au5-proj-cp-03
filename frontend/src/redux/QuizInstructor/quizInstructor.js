@@ -57,7 +57,6 @@ const quizInstructorReduer = (state = INITIAL_STATE, action) => {
       return stateCopy;
 
     case "REMOVE_NEW_OPTION":
-      console.log(payload)
       stateCopy.questions[stateCopy.viewQuestion].options.splice(payload, 1);
       return stateCopy;
 

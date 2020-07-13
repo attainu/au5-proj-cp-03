@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 const courseDashboardReducer = (state = INITIAL_STATE, action) => {
     let statecopy = JSON.parse(JSON.stringify(state));
     const { type, payload } = action;
-    //console.log(payload)
     switch (type) {
         case "COURSE_DASHBOARD":
             statecopy.courseID = payload.data.courseID;

@@ -19,6 +19,10 @@ const quizReducer = (state = INITIAL_STATE, action) => {
       stateCopy.page -= 1;
       return stateCopy;
 
+    case "RESET_QUIZ":
+      stateCopy.page = 1;
+      return stateCopy;
+
     default:
       return stateCopy;
   }

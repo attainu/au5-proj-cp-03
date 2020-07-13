@@ -44,7 +44,6 @@ class index extends Component {
     });
   }
   render() {
-    console.log(this.state.view);
     let isInstructor = false;
     let role = this.props.role;
 

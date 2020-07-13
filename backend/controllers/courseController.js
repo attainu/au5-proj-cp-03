@@ -13,7 +13,7 @@ exports.getcourse = catchAsync(async (req, res, next) => {
     return next(new AppError(`Invalid request`, 400));
   }
   const course = await Course.findById({ _id: id }).populate({
-    path: "posts quizzes ebooks studentsEnrolled"
+    path: "posts quizzes ebooks assignments studentsEnrolled"
   });
   res.json({
     status: true,

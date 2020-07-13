@@ -59,7 +59,6 @@ function ViewQuestion(props) {
         payload: `Quiz has been published to students successfully`
       });
     } catch (error) {
-      console.log(error);
       if (error.response) {
         props.dispatch({
           type: "SET_GLOBAL_WARNING",

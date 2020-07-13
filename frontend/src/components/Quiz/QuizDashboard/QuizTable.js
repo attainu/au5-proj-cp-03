@@ -55,7 +55,6 @@ function QuizTable(props) {
           </TableHead>
           <TableBody>
             {props.quiz.quiz.map(el => {
-              console.log(moment(el.startTime).unix(), moment(new Date()).unix(), moment(el.startTime).unix() > moment(new Date()).unix())
               return (
                 <StyledTableRow key={el._id}>
                   <StyledTableCell component="th" scope="row">
@@ -68,12 +67,12 @@ function QuizTable(props) {
                   {props.user.role === "instructor" && <StyledTableCell align="right">
                     <Link to={`/courses/${props.match.params.id}/quiz/${el._id}`}>
                       <Button variant="contained" color="primary">
-                        View Quiz
+                        Start Quiz
                     </Button>
                     </Link>
                   </StyledTableCell>}
                   {props.user.role === "student" && <StyledTableCell align="right">
-                    {moment(el.startTime).unix() <= moment(new Date()).unix() ? <Link to={`/courses/${props.match.params.id}/quiz/${el._id}`}>
+                    {moment(el.startTime).unix() <= moment().unix() ? <Link to={`/courses/${props.match.params.id}/quiz/${el._id}`}>
                       <Button variant="contained" color="primary" >
                         View Quiz
                     </Button>

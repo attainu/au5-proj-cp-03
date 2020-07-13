@@ -95,7 +95,7 @@ class AssignmentInstructor extends Component {
         date: moment().format("YYYY-MM-DDTHH:mm"),
       })
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Axios from 'axios';
 
 function AddQuiz(props) {
-  console.log(props);
   const [view, setView] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(moment().format("YYYY-MM-DDTHH:mm"));
@@ -25,7 +24,6 @@ function AddQuiz(props) {
       });
 
     } catch (error) {
-      console.log(error);
     }
   }
 

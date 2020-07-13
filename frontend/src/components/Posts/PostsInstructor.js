@@ -25,7 +25,7 @@ class PostsInstructor extends Component {
   }
 
   handleFile = (event) => {
-    console.log(event.target)
+    // console.log(event.target)
   }
 
   handleUpload = async (filename) => {
@@ -94,7 +94,7 @@ class PostsInstructor extends Component {
         filename: ""
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
   }

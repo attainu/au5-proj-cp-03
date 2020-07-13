@@ -17,13 +17,12 @@ class Posts extends Component {
           }
         }
       );
-      console.log(res.data);
       this.props.dispatch({
         type: "SET_POSTS",
         payload: res.data.data
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.response) {
         this.props.dispatch({
           type: "SET_GLOBAL_WARNING",

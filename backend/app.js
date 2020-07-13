@@ -9,6 +9,7 @@ const ebook = require("./routes/ebookRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const postRoutes = require("./routes/postRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
+const assignsubnRoutes = require("./routes/assignSubnRoutes");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -23,6 +24,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/assignment", assignmentRoutes);
+app.use("/api/assignsubn", assignsubnRoutes);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
