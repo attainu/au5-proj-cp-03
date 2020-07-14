@@ -151,7 +151,7 @@ class index extends Component {
                 </Grid>
               </div>
               <div className="col-md-7">
-                {this.state.view === "Ebooks" ? (
+                {this.state.view === "Videos" ? (
                   <Grid
                     elevation={3}
                     style={{ paddingTop: "15px", paddingBottom: "15px" }}
@@ -163,7 +163,7 @@ class index extends Component {
                       )}
                   </Grid>
                 ) : null}
-                {this.state.view === "Videos" ? (
+                {this.state.view === "Ebooks" ? (
                   <Grid
                     elevation={3}
                     style={{ paddingTop: "15px", paddingBottom: "15px" }}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactPlayer from 'react-player'
 
 import axios from 'axios'
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
 function Video(props) {
     const [link, setlink] = useState([]) /// will change to array when there will be list of videos

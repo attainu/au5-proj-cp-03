@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Snackbar } from '@material-ui/core';
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -55,7 +56,7 @@ function SignIn(props) {
     const [validEmail, setvalidEmail] = useState(false)
     const [validPassword, setValidPassword] = useState(false)
     const [alert, setAlert] = useState(false)
-
+    const [btnlogin, setBtnlogin] = useState(true)
 
     const handleEmail = (event) => {
         let value = event.target.value
@@ -71,9 +72,15 @@ function SignIn(props) {
 
         setpassword(password)
         setValidPassword(validPassword)
+        setBtnlogin(false)
     }
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (!email && !password) {
+            setvalidEmail(true)
+            setValidPassword(true)
+            return
+        }
         try {
             let res = await axios.post("http://localhost:4000/api/users/login", {
                 email: email,
@@ -107,7 +114,7 @@ function SignIn(props) {
                         error={validEmail}
                         variant="outlined"
                         margin="normal"
-                        required
+                        required="true"
                         fullWidth
                         id="email"
                         label="Email Address"
@@ -121,7 +128,7 @@ function SignIn(props) {
                         error={validPassword}
                         variant="outlined"
                         margin="normal"
-                        required
+                        required="true"
                         fullWidth
                         name="password"
                         label="Password"
@@ -134,6 +141,7 @@ function SignIn(props) {
 
                     <Button
                         type="submit"
+                        disabled={!validEmail && validPassword ? true : false}
                         fullWidth
                         variant="contained"
                         color="primary"
