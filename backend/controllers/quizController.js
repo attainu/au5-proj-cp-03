@@ -21,6 +21,11 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
     );
   }
 
+  if (req.user.role === "student" && quiz.startTime > new Date()) {
+    return next(
+      new AppError("This quiz is still isn't available to students", 403)
+    );
+  }
   if (req.user.role === "student") {
     const updateQuiz = quiz.question.map((el) => {
       el.answer = undefined;

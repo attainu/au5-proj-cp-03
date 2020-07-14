@@ -74,7 +74,7 @@ function QuizTable(props) {
                   {props.user.role === "student" && <StyledTableCell align="right">
                     {moment(el.startTime).unix() <= moment().unix() ? <Link to={`/courses/${props.match.params.id}/quiz/${el._id}`}>
                       <Button variant="contained" color="primary" >
-                        View Quiz
+                        Start Quiz
                     </Button>
                     </Link>
                       :

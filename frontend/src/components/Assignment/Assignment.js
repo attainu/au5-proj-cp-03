@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Axios from 'axios';
 import AssignmentInstructor from './AssignmentInstructor';
 import AssignmentView from './AssignmentView';
+import StudAssignView from './StudAssignView';
 
 
 class Assignment extends Component {
@@ -12,7 +12,8 @@ class Assignment extends Component {
     return (
       <div>
         {this.props.user.role === "instructor" && <AssignmentInstructor />}
-        <AssignmentView />
+        {this.props.user.role === "instructor" && <AssignmentView />}
+        {this.props.user.role === "student" && <StudAssignView />}
       </div>
     )
   }

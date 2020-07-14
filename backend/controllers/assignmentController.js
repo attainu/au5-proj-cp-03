@@ -12,6 +12,7 @@ exports.allAssignments = catchAsync(async (req, res, next) => {
     path: "submissions",
     populate: {
       path: "userID",
+      select: "name",
     },
   });
 

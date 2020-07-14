@@ -42,6 +42,7 @@ function AddQuiz(props) {
       getQuiz();
       setView(false);
     } catch (error) {
+      console.log(error);
       props.dispatch({
         type: "SET_GLOBAL_WARNING",
         payload: `Quiz title can't be duplicate`

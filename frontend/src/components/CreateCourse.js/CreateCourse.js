@@ -44,6 +44,7 @@ function CreateCourse(props) {
     props.dispatch({
       type: "REMOVE_MODAL",
     });
+    console.log("Yooo");
     try {
       await Axios.post(
         "http://localhost:4000/api/course",

@@ -10,6 +10,11 @@ const quizSubnSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  userID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   totalMarks: {
     type: Number,
     required: true,

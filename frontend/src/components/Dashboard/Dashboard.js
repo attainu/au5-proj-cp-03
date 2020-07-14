@@ -204,8 +204,9 @@ function Dashboard(props) {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('data');
+    console.log("logout");
+    localStorage.clear();
+    window.location.href = '/login'
   }
 
   const renderProfile = (

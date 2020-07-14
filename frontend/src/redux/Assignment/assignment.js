@@ -7,6 +7,7 @@ const assignmentReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
   switch (type) {
     case "SET_ASSIGNMENTS":
+      console.log(payload);
       statecopy.assignments = payload;
       return statecopy;
 

@@ -16,6 +16,10 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
     path: "assignments",
     populate: {
       path: "submissions",
+      populate: {
+        path: "userID",
+        select: "name",
+      },
     },
   });
   // Get all submissions
@@ -29,10 +33,9 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
     },
   });
 
-  const index = user.studentCourses.findIndex(
-    (el) => `${el.courseID[0]}` === `${id}`
-  );
-
+  const index = user.studentCourses.findIndex((el) => {
+    return `${el.courseID[0]}` === `${id}`;
+  });
   for (let i = 0; i < user.studentCourses[index].assignSubn.length; i += 1) {
     for (let j = 0; j < course.assignments.length; j += 1) {
       const indexes = course.assignments[j].submissions
@@ -41,9 +44,7 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
       if (indexes !== -1) {
         course.assignments[
           j
-        ].title += `/Submitted/${course.assignments[j].submissions[indexes].file}`;
-      } else {
-        course.assignments[j].title += "/notsubmitted";
+        ].title += `{Submitted{${course.assignments[j].submissions[indexes].file}`;
       }
     }
   }

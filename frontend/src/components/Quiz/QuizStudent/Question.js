@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux"
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, Button } from '@material-ui/core';
 
 function Question(props) {
   const handleCorrectOption = (index) => {
@@ -52,6 +52,24 @@ function Question(props) {
               </Paper>
             )
           })}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
+            {props.quiz.viewQuestion !== 0 && <Button variant="contained" className="my-2" color="primary" onClick={() => props.dispatch({ type: "VIEW_STUD_QUESTION", payload: props.quiz.viewQuestion - 1 })}>
+              Previous Question
+            </Button>}
+            {props.quiz.viewQuestion < props.quiz.questions.length - 1 ? (<Button variant="contained" className="my-2" color="primary" onClick={() => props.dispatch({ type: "VIEW_STUD_QUESTION", payload: props.quiz.viewQuestion + 1 })}>
+              Next Question
+            </Button>)
+              : (
+                <Button variant="contained" className="my-2" color="primary">
+                  Submit
+                </Button>
+              )}
+          </div>
         </Paper>
       </div>
     </div >

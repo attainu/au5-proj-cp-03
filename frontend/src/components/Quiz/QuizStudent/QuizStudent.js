@@ -6,6 +6,7 @@ import Axios from 'axios';
 import QuestionNumber from './QuestionNumber';
 import Question from './Question';
 import { Typography } from '@material-ui/core';
+import moment from 'moment';
 
 class QuizStudent extends Component {
 
@@ -39,17 +40,18 @@ class QuizStudent extends Component {
         type: "SET_STUD_DURA",
         payload: res.data.data.duration
       })
-      this.props.dispatch({
-        type: "REMOVE_BACKDROP",
-      });
     } catch (error) {
+      this.props.history.push(`/courses`)
       if (error.response) {
         this.props.dispatch({
           type: "SET_GLOBAL_WARNING",
-          payload: error.response.message
+          payload: error.response.data.message
         });
       }
     }
+    this.props.dispatch({
+      type: "REMOVE_BACKDROP",
+    });
   }
 
   render() {
