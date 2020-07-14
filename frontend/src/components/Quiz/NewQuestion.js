@@ -93,7 +93,6 @@ function NewQuestion(props) {
         question: "",
         answer: "",
       });
-      console.log(res.data.data.question);
       props.dispatch({
         type: "SET_QUESTIONS",
         payload: res.data.data.question,
@@ -107,7 +106,6 @@ function NewQuestion(props) {
         payload: res.data.data.question.length - 1,
       });
     } catch (error) {
-      console.log(error);
       if (error.response) {
         props.dispatch({
           type: "SET_GLOBAL_WARNING",
@@ -124,7 +122,6 @@ function NewQuestion(props) {
       type: "REMOVE_BACKDROP",
     });
   };
-  console.log(props);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>

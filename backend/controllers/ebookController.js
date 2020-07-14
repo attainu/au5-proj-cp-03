@@ -8,7 +8,6 @@ const AppError = require("../utils/appError");
 //get ebooks on the basis of coursid
 exports.getebook = catchAsync(async (req, res, next) => {
   const { courseid } = req.params;
-  console.log(req.params);
 
   if (!courseid) {
     return next(new AppError(`Provide a valid courseID`, 400));

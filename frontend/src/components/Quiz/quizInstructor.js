@@ -56,7 +56,6 @@ class QuizInstructor extends Component {
     })
   }
   render() {
-    console.log(this.props.quiz.questions, this.props.quiz.viewQuestion);
     return (
       <div>
         {this.state.warning && (

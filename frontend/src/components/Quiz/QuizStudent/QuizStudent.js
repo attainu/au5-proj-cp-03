@@ -43,7 +43,6 @@ class QuizStudent extends Component {
         type: "REMOVE_BACKDROP",
       });
     } catch (error) {
-      console.log(error);
       if (error.response) {
         this.props.dispatch({
           type: "SET_GLOBAL_WARNING",
@@ -54,7 +53,6 @@ class QuizStudent extends Component {
   }
 
   render() {
-    console.log(this.props.quiz);
     return (
       <div>
         <QuestionNumber />

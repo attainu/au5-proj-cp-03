@@ -13,7 +13,7 @@ exports.getcourse = catchAsync(async (req, res, next) => {
     return next(new AppError(`Invalid request`, 400));
   }
   const course = await Course.findById({ _id: id }).populate({
-    path: "posts quizzes ebooks studentsEnrolled"
+    path: "posts quizzes ebooks assignments studentsEnrolled"
   });
   res.json({
     status: true,
@@ -34,18 +34,36 @@ exports.getCourses = catchAsync(async (req, res, next) => {
   }
 
   let course;
+  let option = {
+    sort: {
+      'updatedAt': -1
+    }
+  };
+
+  if (type === "quizzes") {
+    option = {
+      sort: {
+        'startTime': -1
+      }
+    }
+  }
+
   if (!type) {
     course = await Course.findById({ _id: id }).populate({
       path: "posts quizzes ebooks studentsEnrolled"
     });
+  } else if (type === "quizzes" && req.user.role === "student") {
+    course = await Course.findById({ _id: id }).populate({
+      path: "quizzes",
+      options: option,
+      match: {
+        publish: true
+      }
+    })
   } else {
     course = await Course.findById({ _id: id }).populate({
       path: type,
-      options: {
-        sort: {
-          'updatedAt': -1
-        }
-      }
+      options: option
     });
   }
 

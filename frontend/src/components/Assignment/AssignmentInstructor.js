@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Paper, Avatar, Typography, TextField, Button, CircularProgress } from '@material-ui/core';
 import FileUploader from "react-firebase-file-uploader";
 import { storage, firebase } from "../../config/firebaseconfig";
@@ -6,26 +6,24 @@ import { withRouter } from "react-router-dom"
 import CancelIcon from '@material-ui/icons/Cancel';
 import { connect } from "react-redux";
 import Axios from "axios";
+import moment from "moment";
 
-
-class PostsInstructor extends Component {
+class AssignmentInstructor extends Component {
 
   state = {
-    postView: true,
+    view: true,
     url: "",
     message: "",
     progress: 0,
     filename: "",
+    title: "",
+    date: moment().format("YYYY-MM-DDTHH:mm"),
   }
 
-  handleView = () => {
+  handleTitle = (e) => {
     this.setState({
-      postView: !this.state.postView
-    })
-  }
-
-  handleFile = (event) => {
-    // console.log(event.target)
+      title: e.target.value
+    });
   }
 
   handleUpload = async (filename) => {
@@ -41,6 +39,12 @@ class PostsInstructor extends Component {
     })
   };
 
+  handleView = () => {
+    this.setState({
+      view: !this.state.view
+    })
+  }
+
   handleProgress = (progress) => {
     if (progress === 0) {
       this.setState({
@@ -55,54 +59,50 @@ class PostsInstructor extends Component {
   handleMessage = (e) => {
     this.setState({
       message: e.target.value
-    })
+    });
   }
 
-  handlePost = async () => {
+  handleAssingment = async () => {
     try {
-      await Axios.post("http://localhost:4000/api/post", {
+      await Axios.post("http://localhost:4000/api/assignment", {
         courseID: this.props.match.params.id,
+        message: this.state.message,
+        endDate: this.state.date,
         file: this.state.url,
         filename: this.state.filename,
-        message: this.state.message,
+        title: this.state.title
       }, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem('token')}`
         }
       });
-      const res = await Axios.get(
-        `http://localhost:4000/api/course?id=${this.props.match.params.id}&type=posts&page=${this.props.posts.page}`,
-        {
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
-          }
+      const res = await Axios.get(`http://localhost:4000/api/course/${this.props.match.params.id}`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
         }
-      );
+      });
       this.props.dispatch({
-        type: "SET_GLOBAL_SUCCESS",
-        payload: "Post has been created sucessfully"
-      })
-      this.props.dispatch({
-        type: "SET_POSTS",
-        payload: res.data.data
+        type: "SET_ASSIGNMENTS",
+        payload: res.data.data.assignments
       });
       this.setState({
-        postView: true,
+        view: true,
         url: "",
         message: "",
         progress: 0,
-        filename: ""
-      });
+        filename: "",
+        title: "",
+        date: moment().format("YYYY-MM-DDTHH:mm"),
+      })
     } catch (error) {
       // console.log(error);
     }
-
   }
 
   render() {
     return (
       <div>
-        {this.state.postView ? (
+        {this.state.view ? (
           <Paper
             style={{
               minHeight: "4.5rem",
@@ -122,7 +122,7 @@ class PostsInstructor extends Component {
                 display: "flex",
                 flexGrow: "1",
               }}
-            >Share something with your class</Typography>
+            >Add assignment to your class</Typography>
           </Paper>
         ) : (
             <Paper
@@ -133,17 +133,50 @@ class PostsInstructor extends Component {
               }}
             >
               <TextField
+                id="title"
+                type="string"
+                rows={1}
+                fullWidth
+                placeholder="Assignment Title"
+                onChange={this.handleTitle}
+                value={this.state.title}
+                className="my-2"
+              />
+              <TextField
                 id="time"
                 type="string"
                 rows={4}
                 fullWidth
                 multiline
                 variant="filled"
-                placeholder="Share something to your class"
+                placeholder="Add description to the assingment"
                 style={{
                   borderRadius: "10px"
                 }}
                 onChange={this.handleMessage}
+                value={this.state.message}
+                className="my-2"
+              />
+              <TextField
+                id="datetime-local"
+                label="Deadline"
+                type="datetime-local"
+                value={this.state.date}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(e) => {
+                  if (moment(e.target.value).unix() < moment().unix()) {
+                    this.setState({
+                      date: moment().format("YYYY-MM-DDTHH:mm")
+                    });
+                  } else {
+                    this.setState({
+                      date: moment(e.target.value).format("YYYY-MM-DDTHH:mm")
+                    })
+                  }
+                }}
+                className="my-2"
               />
               <div
                 className="mt-3"
@@ -162,7 +195,6 @@ class PostsInstructor extends Component {
                     variant="contained"
                     color="primary"
                     component="label"
-                    onChange={(e) => this.handleFile(e)}
                   >
                     Upload File
                     <FileUploader
@@ -189,15 +221,14 @@ class PostsInstructor extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-                  disabled={!(this.state.message.length > 0)}
-                  onClick={this.handlePost}
+                  disabled={!(this.state.message.length > 0 && this.state.title.length > 0)}
+                  onClick={this.handleAssingment}
                 >
-                  Post
+                  Add Assingment
               </Button>
               </div>
             </Paper>
-          )
-        }
+          )}
       </div>
     )
   }
@@ -206,8 +237,7 @@ class PostsInstructor extends Component {
 const mapStateToPorps = state => {
   return {
     user: state.user.user,
-    posts: state.posts
   }
 }
 
-export default withRouter(connect(mapStateToPorps)(PostsInstructor));
+export default withRouter(connect(mapStateToPorps)(AssignmentInstructor));

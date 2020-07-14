@@ -17,10 +17,12 @@ import Dashboard from "../Dashboard/Dashboard"
 import { connect } from "react-redux";
 import Axios from "axios";
 import Posts from "../Posts/Posts";
+import QuizView from "../Quiz/QuizDashboard/QuizView";
+import Assignment from "../Assignment/Assignment";
 
 class index extends Component {
   state = {
-    view: "Posts",
+    view: "Assignment",
   };
 
   async componentDidMount() {
@@ -32,7 +34,6 @@ class index extends Component {
     const id = temp.split("/");
     const finalurl = url + id[4];
     await Axios.get(finalurl).then((data) => {
-      //console.log(data.data.data.courseID)
       this.props.dispatch({
         type: "COURSE_DASHBOARD",
         payload: data.data,
@@ -87,6 +88,9 @@ class index extends Component {
                     {this.props.role === "instructor" && <Typography variant="h6" style={{ color: "white" }}>
                       Enroll string for course - {this.props.enroll}
                     </Typography>}
+                    {/* {this.props.role === "student" && <Typography variant="h6" style={{ color: "white" }}>
+                      Instructor: {this.props.name}
+                    </Typography>} */}
                   </Box>
                 </Paper>
               </div>
@@ -176,6 +180,8 @@ class index extends Component {
                   </Grid>
                 ) : null}
                 {this.state.view === "Posts" && <Posts />}
+                {this.state.view === "Quiz" && <QuizView />}
+                {this.state.view === "Assignment" && <Assignment />}
               </div>
               <div className="col-md-1"></div>
             </div>
@@ -185,11 +191,13 @@ class index extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     courseID: state.courseDashboard.courseID,
     courseName: state.courseDashboard.courseName,
     enroll: state.courseDashboard.enrollString,
+    name: state.courseDashboard.name,
     role: state.user.user.role,
   };
 };

@@ -17,7 +17,6 @@ export default function Signup() {
         }
         const url = 'http://localhost:4000/api/users/signup'
         Axios.post(url, payload).then(result => {
-            console.log(result)
             if (result.status === 200) {
 
                 window.location = '/login'

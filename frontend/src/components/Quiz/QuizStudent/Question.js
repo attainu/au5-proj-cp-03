@@ -40,7 +40,6 @@ function Question(props) {
               styles.background = "green";
               styles.color = "white"
             }
-            console.log(styles);
             return (
               <Paper style={{
                 color: styles.color,

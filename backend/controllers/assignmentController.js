@@ -5,6 +5,21 @@ const AppError = require("../utils/appError");
 // const cloudinary = require("../utils/cloudinaryFileUpload");
 const Post = require("../models/postModel");
 
+exports.allAssignments = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const assingments = await Assignment.findById({ _id: id }).populate({
+    path: "submissions",
+    populate: {
+      path: "userID",
+    },
+  });
+
+  res.json({
+    data: assingments.submissions,
+  });
+});
+
 exports.getAssignment = catchAsync(async (req, res, next) => {
   const { assignmentID } = req.body;
 
@@ -22,7 +37,7 @@ exports.getAssignment = catchAsync(async (req, res, next) => {
 });
 
 exports.createAssignment = catchAsync(async (req, res, next) => {
-  const { message, courseID, endDate, title, file } = req.body;
+  const { message, courseID, endDate, title, file, filename } = req.body;
 
   if (!message && !title) {
     return next(
@@ -60,7 +75,13 @@ exports.createAssignment = catchAsync(async (req, res, next) => {
     );
   }
 
-  const assignment = await Assignment.create({ courseID, message, file });
+  const assignment = await Assignment.create({
+    courseID,
+    message,
+    file,
+    filename,
+    title,
+  });
   course.assignments.push(assignment._id);
   await course.save();
 

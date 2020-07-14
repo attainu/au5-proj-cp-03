@@ -42,7 +42,6 @@ export default function Ebook() {
         }, 3000);
       });
     } else {
-      console.log("error");
     }
   };
   return (

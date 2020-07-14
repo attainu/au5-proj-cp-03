@@ -11,6 +11,8 @@ import backdropReducer from "./Backdrop/backdrop";
 import quizStudentReducer from "./QuizStudent/QuizStudent";
 import postsReducer from "./Posts/postsReducer";
 import postEditReducer from "./PostsEdit/postsEdit";
+import quizReducer from "./QuizView/quizView";
+import assignmentReducer from "./Assignment/assignment";
 
 export default combineReducers({
   user: userReducer,
@@ -23,5 +25,7 @@ export default combineReducers({
   backdrop: backdropReducer,
   quizStudent: quizStudentReducer,
   posts: postsReducer,
-  editPost: postEditReducer
+  editPost: postEditReducer,
+  quiz: quizReducer,
+  assignment: assignmentReducer
 });

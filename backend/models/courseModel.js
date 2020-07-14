@@ -56,27 +56,6 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-// courseSchema.pre("findOneAndUpdate", async function (next) {
-//   console.log("Enterd middleware");
-//   if (new Date(this.startDate).getTime() > new Date(this.endDate).getTime()) {
-//     return next(
-//       new AppError(
-//         "Start date of a course can't be after the end date of the course",
-//         400
-//       )
-//     );
-//   }
-
-//   if (new Date(this.endDate).getTime() < new Date(this.startDate).getTime()) {
-//     return next(
-//       new AppError(
-//         "End date of a course can't be before the start date of the course",
-//         400
-//       )
-//     );
-//   }
-// });
-
 const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;

@@ -34,7 +34,7 @@ function Ebook(props) {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("LInk", link)
+        // console.log("LInk", link)
 
 
         const payload = {
@@ -43,7 +43,6 @@ function Ebook(props) {
             "link": link,
             "courseId": props.courseID
         }
-        console.log(payload)
         const url = "http://localhost:4000/api/saveebook";
         Axios.post(url, payload).then((result) => {
             setSnackbarstate(true);

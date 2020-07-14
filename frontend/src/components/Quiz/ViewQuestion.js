@@ -56,10 +56,9 @@ function ViewQuestion(props) {
       });
       props.dispatch({
         type: "SET_GLOBAL_SUCCESS",
-        payload: res.data.data.message
+        payload: `Quiz has been published to students successfully`
       });
     } catch (error) {
-      console.log(error);
       if (error.response) {
         props.dispatch({
           type: "SET_GLOBAL_WARNING",
@@ -150,7 +149,7 @@ function ViewQuestion(props) {
             color="primary"
             onClick={handlePublishQuiz}
             className="mx-2"
-          >Publich Quiz</Button>}
+          >Publish Quiz</Button>}
         </div>
       </Paper>
     </div>

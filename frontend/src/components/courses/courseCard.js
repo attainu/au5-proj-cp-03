@@ -32,8 +32,19 @@ const useStyles = makeStyles({
   },
 });
 
+
 function CourseCard(props) {
   const classes = useStyles();
+
+  const handleName = () => {
+    if (props.user.role === "student") {
+      props.dispatch({
+        type: "SET_NAME",
+        payload: props.course[0].instructor.name,
+      })
+    }
+  }
+
   return (
     <Card
       className={classes.root}
@@ -112,7 +123,7 @@ function CourseCard(props) {
               : `/courses/${props.course[0]._id}`
           }
         >
-          <Button size="small">Course page</Button>
+          <Button size="small" onClick={handleName}>Course page</Button>
         </Link>
       </CardActions>
     </Card>

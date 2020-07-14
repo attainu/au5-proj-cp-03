@@ -119,6 +119,10 @@ function EditQuestion(props) {
         type: "VIEW_QUESTION",
         payload: props.quiz.viewQuestion,
       });
+      props.dispatch({
+        type: "SET_GLOBAL_SUCCESS",
+        payload: `Question has been updated sucessfully`
+      })
       res.data.data.question.push({
         options: ["", ""],
         question: "",
@@ -133,7 +137,7 @@ function EditQuestion(props) {
         payload: "",
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.response) {
         props.dispatch({
           type: "SET_GLOBAL_WARNING",
@@ -150,7 +154,6 @@ function EditQuestion(props) {
       type: "REMOVE_BACKDROP",
     });
   };
-  console.log(props);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>

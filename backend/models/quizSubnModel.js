@@ -16,4 +16,4 @@ const quizSubnSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("AssignSubn", quizSubnSchema);
+module.exports = mongoose.model("QuizSubn", quizSubnSchema);

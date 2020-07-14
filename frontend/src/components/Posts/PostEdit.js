@@ -38,7 +38,7 @@ function PostEdit(props) {
         type: "REMOVE_MODAL_POST"
       })
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -93,7 +93,7 @@ function PostEdit(props) {
       });
       getPosts(props.posts.page);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     props.dispatch({
       type: "REMOVE_BACKDROP",

@@ -29,6 +29,10 @@ const quizSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    submissions: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "QuizSubn" }],
+      default: [],
+    },
     question: [
       {
         question: {
