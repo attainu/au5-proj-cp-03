@@ -319,6 +319,7 @@ function Dashboard(props) {
             {props.courses.courses.length > 0 &&
               props.user.role === "instructor" &&
               props.courses.courses.map((el) => {
+
                 return (
                   <ListItem button to={`/courses/${el._id}`} key={`${el._id}`}>
                     <Link

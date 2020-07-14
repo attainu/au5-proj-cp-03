@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Divider, Grid, TextField, Button } from '@material-ui/core';
+import { Divider, Grid, TextField, Button, Paper } from '@material-ui/core';
 import { Snackbar } from '@material-ui/core';
 import { connect } from 'react-redux';
+import ControlPanel from './ControlPanel';
 function Video(props) {
     const [name, setName] = useState('')
     const [subject, setSubject] = useState('')
@@ -44,121 +45,124 @@ function Video(props) {
         <div>
             <div className="container">
                 <div className="row">
-                    <div className="col-md-2"></div>
-                    <div className="col-md-8">
 
-                        <form onSubmit={onSubmit} >
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
+                    <div className="col-md-12">
+                        <Paper elevation={3}>
+                            <form onSubmit={onSubmit} style={{ margin: '10px', paddingBottom: '10px' }}>
+                                <Grid container spacing={5}>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
 
 
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        disabled='true'
-                                        label={props.courseID}
-                                        autoFocus
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            disabled='true'
+                                            label={props.courseID}
+                                            autoFocus
 
-                                    />
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+
+
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+
+                                            label="Video Name"
+                                            autoFocus
+                                            onChange={e => setName(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+
+
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+
+                                            label="Subject"
+                                            autoFocus
+                                            onChange={e => setSubject(e.target.value)}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+
+
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+
+                                            label="Chapter"
+                                            autoFocus
+                                            onChange={e => setChapter(e.target.value)}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} >
+                                        <TextField
+
+
+                                            variant="outlined"
+
+                                            fullWidth
+
+                                            label="Please paste the video link"
+                                            autoFocus
+
+                                            onChange={e => {
+                                                setFile('')
+                                                setLink(e.target.value)
+                                            }
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} >
+                                        <label>Or</label>
+
+
+                                    </Grid>
+                                    <Grid item xs={12} >
+                                        <TextField
+                                            type='file'
+
+                                            variant="outlined"
+                                            inputProps={{ accept: ".mp4" }}
+                                            fullWidth
+
+                                            label=""
+                                            autoFocus
+                                            onChange={e => {
+                                                setLink('')
+                                                setFile(e.target.files[0])
+                                            }
+                                            }
+                                        />
+                                    </Grid>
+
+                                    {/* <input type='file' name='file' id='file' placeholder='Select file to upload' onChange={e => setFile(e.target.files[0])} /> */}
+                                    <br />
+                                    <Grid item xs={6}>
+                                        <Button
+                                            type="submit"
+
+                                            variant="contained"
+                                            color="primary"
+
+                                        >
+                                            {buttontext}
+                                        </Button>
+                                    </Grid>
+
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-
-
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-
-                                        label="Video Name"
-                                        autoFocus
-                                        onChange={e => setName(e.target.value)}
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-
-
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-
-                                        label="Subject"
-                                        autoFocus
-                                        onChange={e => setSubject(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-
-
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-
-                                        label="Chapter"
-                                        autoFocus
-                                        onChange={e => setChapter(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} >
-                                    <TextField
-
-
-                                        variant="outlined"
-
-                                        fullWidth
-
-                                        label="Please paste the video link"
-                                        autoFocus
-
-                                        onChange={e => {
-                                            setFile('')
-                                            setLink(e.target.value)
-                                        }
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} >
-                                    <label>Or</label>
-
-
-                                </Grid>
-                                <Grid item xs={12} >
-                                    <TextField
-                                        type='file'
-
-                                        variant="outlined"
-
-                                        fullWidth
-
-                                        label=""
-                                        autoFocus
-                                        onChange={e => {
-                                            setLink('')
-                                            setFile(e.target.files[0])
-                                        }
-                                        }
-                                    />
-                                </Grid>
-
-                                {/* <input type='file' name='file' id='file' placeholder='Select file to upload' onChange={e => setFile(e.target.files[0])} /> */}
-                                <br />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-
-                                >
-                                    {buttontext}
-                                </Button>
-                            </Grid>
-                        </form>
-
+                            </form>
+                        </Paper>
                     </div>
-                    <div className="col-md-2"></div>
+
                 </div>
                 <Snackbar
                     open={snackbarstate}
@@ -174,6 +178,7 @@ function Video(props) {
             </div>
             <br />
             <Divider />
+            <br />
 
         </div>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,8 +18,8 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+            <Link color="inherit" href="elearnschool.herokuapp.com">
+                E Learn School
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -78,31 +78,59 @@ export default function SignUp() {
     const [password, setpassword] = React.useState();
     const [passwordConfirm, setpasswordConfirm] = React.useState();
     const [location, setlocation] = React.useState();
+    const [validname, setValidname] = useState(false)
+    const [validemail, setValidemail] = useState(false)
+    const [validpassword, setValidPassword] = useState(false)
+    const [validpasswordConfirm, setValidPasswordConfirm] = useState(false)
+    const [validrole, setValidrole] = useState(false)
+    const [validlocation, setValidlocation] = useState(false)
+    const [validgender, setValidgender] = useState(false)
     const handleGenderChange = (event) => {
         setgender(event.target.value);
     };
     const [role, setrole] = React.useState('student');
 
     const handleRoleChange = (event) => {
+
         setrole(event.target.value);
     };
     const handleNameChange = (event) => {
-        setname(event.target.value);
+        let value = event.target.value
+        let valid = value.length >= 3 ? true : false
+        setname(value)
+        valid ? setValidname(false) : setValidname(true)
     };
     const handleEmailChange = (event) => {
-        setemail(event.target.value);
+        let value = event.target.value
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let validemail = re.test(value);
+        setemail(value)
+        validemail ? setValidemail(false) : setValidemail(true)
     };
     const handlePasswordChange = (event) => {
-        setpassword(event.target.value);
+        let value = event.target.value
+        let isvalid = value.length >= 8 ? true : false
+        setpassword(value)
+        isvalid ? setValidPassword(false) : setValidPassword(true)
     };
     const handleConfirmPasswordChange = (event) => {
-        setpasswordConfirm(event.target.value);
+        let value = event.target.value
+        let isvalid = value === password ? true : false
+        setpasswordConfirm(value)
+        isvalid ? setValidPasswordConfirm(false) : setValidPasswordConfirm(true)
     };
     const handleLocationChange = (event) => {
-        setlocation(event.target.value);
+        let value = event.target.value
+        let isvalid = value.length >= 2 ? true : false
+        setlocation(value)
+        isvalid ? setValidlocation(false) : setValidlocation(true)
     };
-    const handleSubmitForm = (e) => {
+    const handleSubmitForm = async (e) => {
         e.preventDefault()
+        if (name === 'undefined') {
+            console.log(validname)
+            setValidname(false)
+        }
         const payload = {
             "name": name,
             "email": email,
@@ -113,14 +141,19 @@ export default function SignUp() {
             "location": location
 
         }
-        const url = 'http://localhost:4000/api/users/signup'
-        Axios.post(url, payload).then(result => {
-            console.log(result)
-            if (result.status === 200) {
+        try {
+            const url = await 'http://localhost:4000/api/users/signup'
+            Axios.post(url, payload).then(result => {
+                console.log(result)
+                if (result.status === 200) {
 
-                window.location = '/login'
-            }
-        })
+                    window.location = '/login'
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -132,17 +165,19 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
         </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={handleSubmitForm} >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                error={validname}
                                 autoComplete="fname"
                                 name="Name"
                                 variant="outlined"
-                                required
+                                required="true"
                                 fullWidth
                                 id="Name"
-                                label="Full Name"
+                                label="Name"
+                                helperText="Name should be atleast 3 characters"
                                 onChange={handleNameChange}
                                 autoFocus
                             />
@@ -150,6 +185,7 @@ export default function SignUp() {
 
                         <Grid item xs={12}>
                             <TextField
+                                error={validemail}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -162,6 +198,7 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validpassword}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -170,9 +207,11 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 onChange={handlePasswordChange}
+                                helperText="Password should be atleast 8 characters long"
                                 autoComplete="current-password"
                             />
                             <TextField
+                                error={validpasswordConfirm}
                                 variant="outlined"
                                 margin="normal"
                                 required
@@ -187,7 +226,8 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                id="gender"
+                                error={validrole}
+                                id="role"
                                 select
                                 label="Select"
                                 value={role}
@@ -204,6 +244,7 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={validgender}
                                 id="gender"
                                 select
                                 label="Select"
@@ -221,6 +262,7 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validlocation}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -238,7 +280,7 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={handleSubmitForm}
+
                     >
                         Sign Up
           </Button>

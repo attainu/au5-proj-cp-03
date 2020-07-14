@@ -41,9 +41,9 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
     },
   });
 
-  const index = user.studentCourses.findIndex((el) => {
-    return `${el.courseID[0]}` === `${id}`;
-  });
+  // const index = user.studentCourses.findIndex((el) => {
+  //   return `${el.courseID[0]}` === `${id}`;
+  // });
 
 });
 

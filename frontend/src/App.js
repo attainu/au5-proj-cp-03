@@ -1,10 +1,10 @@
 import React from 'react';
 import LandingPage from './components/LandingPage/LandingPage';
-import Login from './components/Login'
+import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import ForgetPassword from './components/ForgetPassword';
 import TeacherDashboard from './components/teacher'
-import Signup from './components/Signup';
+import Register from './components/Register';
 import StudentDashboard from './components/student/Dashboard'
 
 import courses from "./components/courses/index";
@@ -17,9 +17,9 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route exact path='/register' component={Signup} />
+          <Route exact path='/register' component={Register} />
           <Route exact path="/login"   >
-            {localStorage.getItem('token') ? <Redirect to='/courses' /> : <Login />}
+            {localStorage.getItem('token') ? <Redirect to='/courses' /> : <SignIn />}
           </Route>
           <Route exact path='/reset' component={ForgetPassword} />
           <Route exact path='/courses' component={courses} />

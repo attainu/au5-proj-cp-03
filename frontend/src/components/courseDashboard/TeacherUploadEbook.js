@@ -112,6 +112,7 @@ function Ebook(props) {
 
                                 <Grid item xs={12}>
                                     <FileUploader
+                                        accept=".pdf"
                                         name={name}
 
                                         storageRef={firebase.storage().ref("pdfs")}
