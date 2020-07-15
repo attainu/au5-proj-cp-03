@@ -2,50 +2,50 @@ const QuizSubn = require("../models/quizSubnModel");
 const Quiz = require("../models/quizModel");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
-const Course = require("../models/courseModel");
-const AppError = require("../utils/appError");
+// const Course = require("../models/courseModel");
+// const AppError = require("../utils/appError");
 
-exports.getQuiz = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+// exports.getQuiz = catchAsync(async (req, res, next) => {
+//   const { id } = req.params;
 
-  if (!id) {
-    return next(new AppError(`Invalid course ID`, 400));
-  }
+//   if (!id) {
+//     return next(new AppError(`Invalid course ID`, 400));
+//   }
 
-  const course = await Course.findById({ _id: id }).populate({
-    path: "quizzes",
-    options: {
-      sort: {
-        startTime: -1,
-      },
-    },
-    populate: {
-      path: "submissions",
-      populate: {
-        path: "userID",
-        select: "name",
-      },
-    },
-  });
+//   const course = await Course.findById({ _id: id }).populate({
+//     path: "quizzes",
+//     options: {
+//       sort: {
+//         startTime: -1,
+//       },
+//     },
+//     populate: {
+//       path: "submissions",
+//       populate: {
+//         path: "userID",
+//         select: "name",
+//       },
+//     },
+//   });
 
-  res.json({
-    data: course,
-  });
+//   res.json({
+//     data: course,
+//   });
 
-  const user = await User.findById({ _id: req.user._id }).populate({
-    path: "studentCourses.quizSubn",
-    select: "studentCourses",
-    populate: {
-      path: "quizID",
-      populate: "submissions",
-    },
-  });
+//   const user = await User.findById({ _id: req.user._id }).populate({
+//     path: "studentCourses.quizSubn",
+//     select: "studentCourses",
+//     populate: {
+//       path: "quizID",
+//       populate: "submissions",
+//     },
+//   });
 
-  // const index = user.studentCourses.findIndex((el) => {
-  //   return `${el.courseID[0]}` === `${id}`;
-  // });
+//   // const index = user.studentCourses.findIndex((el) => {
+//   //   return `${el.courseID[0]}` === `${id}`;
+//   // });
 
-});
+// });
 
 exports.createQuizSubn = catchAsync(async (req, res, next) => {
   const { questions, quizID } = req.body;

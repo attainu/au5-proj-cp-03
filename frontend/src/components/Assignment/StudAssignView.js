@@ -108,7 +108,7 @@ class StudAssignView extends Component {
               {el.filename && (
                 <div className="p-2">
                   Assignment file:
-                  <a href={el.file} target="_blank" rel="no referrer">{el.filename}</a>
+                  <a href={el.file} target="_blank" rel="noopener noreferrer">{el.filename}</a>
                 </div>
               )}
               <Divider />
@@ -123,7 +123,7 @@ class StudAssignView extends Component {
                 {`${el.title.split("{")[1]}` === "Submitted" ? (
                   <>
                     <Typography variant="body1">
-                      Submitted file: <a href={el.title.split("{")[2]} target="_blank">{el.filename ? el.filename : "submission.pdf"}</a>
+                      Submitted file: <a href={el.title.split("{")[2]} target="_blank" rel="noopener noreferrer">{el.filename ? el.filename : "submission.pdf"}</a>
                     </Typography>
                     <Button variant="contained" disabled className="mb-2">
                       Submitted

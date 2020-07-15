@@ -205,7 +205,8 @@ function Dashboard(props) {
 
   const handleLogOut = () => {
     console.log("logout");
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('data');
     window.location.href = '/login'
   }
 

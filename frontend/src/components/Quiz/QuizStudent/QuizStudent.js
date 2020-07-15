@@ -6,7 +6,6 @@ import Axios from 'axios';
 import QuestionNumber from './QuestionNumber';
 import Question from './Question';
 import { Typography } from '@material-ui/core';
-import moment from 'moment';
 
 class QuizStudent extends Component {
 

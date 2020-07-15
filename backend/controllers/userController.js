@@ -1,7 +1,13 @@
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcrypt");
+
 const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+
+require("dotenv").config({ path: "./config.env" });
 
 exports.getUser = catchAsync(async (req, res, next) => {
   const { type } = req.query;
@@ -122,5 +128,67 @@ exports.removeStudentFromCourse = catchAsync(async (req, res, next) => {
   res.json({
     status: true,
     message: `Student has been removed from course: ${course.courseID}`,
+  });
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.EMAIL, // generated ethereal user
+        pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL, // sender address
+      to: `${email}`, // list of receivers
+      subject: "Classroom Password reset request", // Subject line
+      text: "Hello", // plain text body
+      html: `<div>
+      <b>Hello, ${email}</b>
+      <p>click on the link to reset your password</p>
+      <p>http://localhost:3000/resetpassword/${token}</p>
+      <p>Link will expire in 15 minutes</p>
+      <div>`,
+    });
+    res.json({
+      data: true,
+    });
+  } else {
+    return next(new AppError("No account found for this email address.", 400));
+  }
+});
+
+exports.changePassword = catchAsync(async (req, res, next) => {
+  const { token, password } = req.body;
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  if (verified) {
+    const salt = await bcryptjs.genSalt(10);
+    const hashPassword = await bcryptjs.hash(password, salt);
+    await User.findByIdAndUpdate(
+      { _id: verified._id },
+      { password: hashPassword }
+    );
+    return res.json({
+      data: true,
+    });
+  }
+  return res.json({
+    data: false,
   });
 });

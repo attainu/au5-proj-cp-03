@@ -3,7 +3,6 @@ import axios from 'axios'
 import { Divider, Grid, TextField, Button, Paper } from '@material-ui/core';
 import { Snackbar } from '@material-ui/core';
 import { connect } from 'react-redux';
-import ControlPanel from './ControlPanel';
 function Video(props) {
     const [name, setName] = useState('')
     const [subject, setSubject] = useState('')

@@ -47,7 +47,7 @@ function ViewQuestion(props) {
 
   const handlePublishQuiz = async () => {
     try {
-      let res = await Axios.put("http://localhost:4000/api/quiz/publish", {
+      await Axios.put("http://localhost:4000/api/quiz/publish", {
         id: props.quiz.quizID
       }, {
         headers: {

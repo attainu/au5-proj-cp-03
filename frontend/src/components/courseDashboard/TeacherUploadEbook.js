@@ -6,9 +6,6 @@ import FileUploader from "react-firebase-file-uploader";
 import { connect } from 'react-redux'
 function Ebook(props) {
     const [description, setDescription] = useState();
-
-    const [file, setFile] = useState();
-
     const [name, setName] = useState();
     const [link, setLink] = useState();
 
@@ -100,7 +97,6 @@ function Ebook(props) {
                                         label="Please paste the pdf link"
                                         autoFocus
                                         onChange={(e) => {
-                                            setFile("");
                                             setLink(e.target.value);
                                         }}
                                     />

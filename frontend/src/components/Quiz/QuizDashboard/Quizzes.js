@@ -21,6 +21,9 @@ class Quizzes extends Component {
           type: "SET_GLOBAL_SUCCESS",
           payload: `No quizzes`
         });
+        this.props.dispatch({
+          type: "DEC_PAGE_QUIZ",
+        });
       } else {
         this.props.dispatch({
           type: "SET_QUIZ",
@@ -50,8 +53,8 @@ class Quizzes extends Component {
 
   handleNext = () => {
     this.props.dispatch({
-      type: "INC_PAGE_QUIZ",
-    });
+      type: "INC_PAGE_QUIZ"
+    })
     this.getQuiz(this.props.quiz.page + 1);
   }
 

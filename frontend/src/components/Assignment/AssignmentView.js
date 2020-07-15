@@ -72,7 +72,7 @@ class AssignmentView extends Component {
               {el.filename && (
                 <div className="p-2">
                   Assignment file:
-                  <a href={el.file} target="_blank" rel="no referrer">{el.filename}</a>
+                  <a href={el.file} target="_blank" rel="noopener noreferrer">{el.filename}</a>
                 </div>
               )}
               {this.props.user.role === "instructor" && (

@@ -13,7 +13,6 @@
 		"eslint-plugin-prettier": "^3.1.4",
 		"firebase": "^7.15.5",
 		"moment": "^2.27.0",
-		"pdf-viewer-reactjs": "^2.0.7",
 		"prettier": "^2.0.5",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
@@ -36,11 +35,7 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
 		"development": [
 			"last 1 chrome version",
 			"last 1 firefox version",
