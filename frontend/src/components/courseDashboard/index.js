@@ -9,6 +9,7 @@ import {
   ListItemText,
   Divider,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import TeacherVideoUpload from "./TeacherVideoUpload";
 import TeacherEbookUpload from "./TeacherUploadEbook";
 import StudentVideoPanel from "./StudentVideoPanel";
@@ -26,12 +27,14 @@ class index extends Component {
   };
 
   async componentDidMount() {
+    console.log(this.props.match.params);
     this.props.dispatch({
       type: "SET_BACKDROP",
     });
     const url = "http://localhost:4000/api/course/";
     const temp = window.location.href;
     const id = temp.split("/");
+    console.log(id);
     const finalurl = url + id[4];
     await Axios.get(finalurl).then((data) => {
       this.props.dispatch({
@@ -201,4 +204,4 @@ const mapStateToProps = (state) => {
     role: state.user.user.role,
   };
 };
-export default connect(mapStateToProps)(index);
+export default withRouter(connect(mapStateToProps)(index));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class ProtectedRoute extends React.Component {
 
@@ -15,4 +16,4 @@ class ProtectedRoute extends React.Component {
   }
 }
 
-export default ProtectedRoute;
+export default withRouter(ProtectedRoute);

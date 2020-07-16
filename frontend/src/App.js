@@ -16,26 +16,26 @@ import Reset from './components/reset';
 function App() {
 
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <Router>
+
         <Switch>
           <Route exact path='/register' component={Register} />
+          <Route exact path='/resetpassword/:id' component={ChangePassword} />
           <Route exact path="/login"   >
             {localStorage.getItem('token') ? <Redirect to='/courses' /> : <SignIn />}
           </Route>
           <Route exact path='/reset' component={Reset} />
-          <Route exact path='/resetpassword/:id' component={ChangePassword} />
-          <ProtectedRoute exact path='/courses' component={courses} />
-
-          <ProtectedRoute exact path='/t/dashboard' component={TeacherDashboard} />
-          <ProtectedRoute exact path='/s/dashboard' component={StudentDashboard} />
-          <ProtectedRoute exact path='/courses/:id/quiz/:id1' component={quiz} />
+          <Route exact path='/courses' component={courses} />
+          <Route exact path='/t/dashboard' component={TeacherDashboard} />
+          <Route exact path='/s/dashboard' component={StudentDashboard} />
+          <Route exact path='/courses/:id/quiz/:id1' component={quiz} />
           <Route exact path='/' component={LandingPage} />
-          <ProtectedRoute exact path='/courses/:id' component={CoursesDashboard} />
-          <ProtectedRoute exact path="/profile" component={Profile} />
+          <Route exact path='/courses/:id' component={CoursesDashboard} />
+          <Route exact path="/profile" component={Profile} />
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </div >
   );
 }
 
