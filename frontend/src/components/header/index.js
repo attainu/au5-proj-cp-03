@@ -10,7 +10,7 @@ export default class index extends Component {
                 >
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">
-                            ELearn School
+                            Classroom
             </a>
 
                         <div className="collapse navbar-collapse" id="navcol-1">
