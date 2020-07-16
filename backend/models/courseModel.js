@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const courseSchema = new mongoose.Schema({
   courseID: {
     type: String,
-    unique: true,
     required: ["true", "Provide a valid course ID"],
   },
   name: {

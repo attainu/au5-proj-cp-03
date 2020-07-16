@@ -22,14 +22,13 @@ import Assignment from "../Assignment/Assignment";
 
 class index extends Component {
   state = {
-    view: "Assignment",
+    view: "Posts",
   };
 
   async componentDidMount() {
     this.props.dispatch({
       type: "SET_BACKDROP",
     });
-    console.log('Yes');
     const url = "http://localhost:4000/api/course/";
     const temp = window.location.href;
     const id = temp.split("/");
